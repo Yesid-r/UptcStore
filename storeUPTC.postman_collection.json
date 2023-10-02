@@ -1,0 +1,1559 @@
+{
+	"info": {
+		"_postman_id": "a112554c-c39f-4728-95ca-866d387df586",
+		"name": "storeUPTC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28560247"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "localhost:3000/users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"          <th>_ID</th>",
+									"        <th>ID</th>",
+									"        <th>Name</th>",
+									"        <th>Lastname</th>",
+									"        <th>Email</th>",
+									"        <th>Phone</th>",
+									"        <th>Role</th>",
+									"    </tr>",
+									"    ",
+									"    {{#each response.dataUsers}}",
+									"        <tr>",
+									"            <td>{{_id}}</td>",
+									"            <td>{{id}}</td>",
+									"            <td>{{name}}</td>",
+									"            <td>{{lastname}}</td>",
+									"            <td>{{email}}</td>",
+									"            <td>{{phone}}</td>",
+									"            <td>{{role}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/users/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>_ID</th>",
+									"        <th>ID</th>",
+									"        <th>Name</th>",
+									"        <th>Lastname</th>",
+									"        <th>Email</th>",
+									"        <th>Password</th>",
+									"        <th>Phone</th>",
+									"        <th>Role</th>",
+									"        <th>_id</th>",
+									"        <th>__v</th>",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"         <td>{{response.dataUserSave._id}}</td>",
+									"        <td>{{response.dataUserSave.id}}</td>",
+									"        <td>{{response.dataUserSave.name}}</td>",
+									"        <td>{{response.dataUserSave.lastname}}</td>",
+									"        <td>{{response.dataUserSave.email}}</td>",
+									"        <td>{{response.dataUserSave.password}}</td>",
+									"        <td>{{response.dataUserSave.phone}}</td>",
+									"        <td>{{response.dataUserSave.role}}</td>",
+									"        <td>{{response.dataUserSave._id}}</td>",
+									"        <td>{{response.dataUserSave.__v}}</td>",
+									"    </tr>",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\":87653356,\n  \"name\":\"Fernando \",\n  \"lastname\": \"Lopez\",\n  \"email\": \"F.Lopez@gmail.com\",\n  \"password\": \"12345\",\n  \"phone\": 3213343553\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/users",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/users/64ffd26b59115aff92136764",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>Field</th>",
+									"        <th>Value</th>",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"        <td>_id</td>",
+									"        <td>{{response.dataUser._id}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>id</td>",
+									"        <td>{{response.dataUser.id}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>name</td>",
+									"        <td>{{response.dataUser.name}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>lastname</td>",
+									"        <td>{{response.dataUser.lastname}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>email</td>",
+									"        <td>{{response.dataUser.email}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>password</td>",
+									"        <td>{{response.dataUser.password}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>phone</td>",
+									"        <td>{{response.dataUser.phone}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>role</td>",
+									"        <td>{{response.dataUser.role}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>__v</td>",
+									"        <td>{{response.dataUser.__v}}</td>",
+									"    </tr>",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users/64ffd26b59115aff92136764",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"64ffd26b59115aff92136764"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/users/64ffd26b59115aff92136764",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<div>",
+									"    <h2>User Deleted</h2>",
+									"    <p>ID: {{response.userDeleted._id}}</p>",
+									"    <p>Name: {{response.userDeleted.name}}</p>",
+									"    <p>Lastname: {{response.userDeleted.lastname}}</p>",
+									"    <p>Email: {{response.userDeleted.email}}</p>",
+									"    <p>Phone: {{response.userDeleted.phone}}</p>",
+									"    <p>Role: {{response.userDeleted.role}}</p>",
+									"</div>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() };",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users/64ffd26b59115aff92136764",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"64ffd26b59115aff92136764"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/users/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"f.lopez@gmail.com\",\n    \"password\": \"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/users/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/users/sendEmail/example@mail.com",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"linkRecoveryPassword\" : \"Link Enpoint /updatePassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/users/sendEmail/example@mail.com",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"sendEmail",
+								"example@mail.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/users/updatePassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"emailSearch\": \"email cuaenta que se va a cambiar\",\n    \"newPassword\": \"nueva contraseña\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/users/updatePassword",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "localhost:3000/products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>_ID</th>",
+									"        <th>ID</th>",
+									"        <th>Name</th>",
+									"        <th>Description</th>",
+									"        <th>Price</th>",
+									"        <th>Stock</th>",
+									"        <th>Availability</th>",
+									"    </tr>",
+									"    ",
+									"    {{#each response.dataProducts}}",
+									"        <tr>",
+									"            <td>{{_id}}</td>",
+									"            <td>{{id}}</td>",
+									"            <td>{{name}}</td>",
+									"            <td>{{description}}</td>",
+									"            <td>{{price}}</td>",
+									"            <td>{{stock}}</td>",
+									"            <td>{{availability}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/products",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"    <th>_ID</th>",
+									"        <th>ID</th>",
+									"        <th>Name</th>",
+									"        <th>Description</th>",
+									"        <th>Price</th>",
+									"        <th>Image</th>",
+									"        <th>Stock</th>",
+									"        <th>Availability</th>",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"     <td>{{response.dataProduct._id}}</td>",
+									"        <td>{{response.dataProduct.id}}</td>",
+									"        <td>{{response.dataProduct.name}}</td>",
+									"        <td>{{response.dataProduct.description}}</td>",
+									"        <td>{{response.dataProduct.price}}</td>",
+									"        <td>{{response.dataProduct.image}}</td>",
+									"        <td>{{response.dataProduct.stock}}</td>",
+									"        <td>{{response.dataProduct.availability}}</td>",
+									"    </tr>",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\":33,\n  \"name\":\"Camisa Uptc\",\n  \"description\": \"Camisa color blanco con logo uptc\",\n  \"price\": 40000,\n  \"image\": \"Https://camina.png\",\n  \"stock\": 5,\n  \"availability\":true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/products",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/products/64ffb407b25ab9bbadce4548",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>Field</th>",
+									"        <th>Value</th>",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"        <td>_id</td>",
+									"        <td>{{response.previusData._id}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>id</td>",
+									"        <td>{{response.previusData.id}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>name</td>",
+									"        <td>{{response.previusData.name}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>description</td>",
+									"        <td>{{response.previusData.description}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>price</td>",
+									"        <td>{{response.previusData.price}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>image</td>",
+									"        <td>{{response.previusData.image}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>stock</td>",
+									"        <td>{{response.previusData.stock}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>availability</td>",
+									"        <td>{{response.previusData.availability}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>__v</td>",
+									"        <td>{{response.previusData.__v}}</td>",
+									"    </tr>",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\":12,\n  \"name\":\"Esfero\",\n  \"description\": \"Esfero marca BIG\",\n  \"price\": 1000.99,\n  \"image\": \"Https://imagenEsfero.png\",\n  \"stock\": 17,\n  \"availability\":true\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/products/64ffb407b25ab9bbadce4548",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products",
+								"64ffb407b25ab9bbadce4548"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/products/65075490b5b7c1ca79e0ddc3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"         <th>_id</th>",
+									"        <th>ID</th>",
+									"        <th>Name</th>",
+									"        <th>Description</th>",
+									"        <th>Price</th>",
+									"        <th>Image</th>",
+									"        <th>Stock</th>",
+									"        <th>Availability</th>",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"        <td>{{response.productDeleted._id}}</td>",
+									"        <td>{{response.productDeleted.id}}</td>",
+									"        <td>{{response.productDeleted.name}}</td>",
+									"        <td>{{response.productDeleted.description}}</td>",
+									"        <td>{{response.productDeleted.price}}</td>",
+									"        <td>{{response.productDeleted.image}}</td>",
+									"        <td>{{response.productDeleted.stock}}</td>",
+									"        <td>{{response.productDeleted.availability}}</td>",
+									"    </tr>",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/products/65075490b5b7c1ca79e0ddc3",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products",
+								"65075490b5b7c1ca79e0ddc3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/products/6504fa00769a12c0c606ea0a",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"    <th>_ID</th>",
+									"        <th>ID</th>",
+									"        <th>Name</th>",
+									"        <th>Description</th>",
+									"        <th>Price</th>",
+									"        <th>Image</th>",
+									"        <th>Stock</th>",
+									"        <th>Availability</th>",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"    <td>{{response.dataProduct._id}}</td>",
+									"        <td>{{response.dataProduct.id}}</td>",
+									"        <td>{{response.dataProduct.name}}</td>",
+									"        <td>{{response.dataProduct.description}}</td>",
+									"        <td>{{response.dataProduct.price}}</td>",
+									"        <td>{{response.dataProduct.image}}</td>",
+									"        <td>{{response.dataProduct.stock}}</td>",
+									"        <td>{{response.dataProduct.availability}}</td>",
+									"    </tr>",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/products/6504fa00769a12c0c606ea0a",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products",
+								"6504fa00769a12c0c606ea0a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "localhost:3000/categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"    <th>_id</th>",
+									"        <th>Category Name</th>",
+									"        <th>Description</th>",
+									"        <th>Products</th>",
+									"    </tr>",
+									"    ",
+									"    {{#each response.dataCategory}}",
+									"        <tr>",
+									"            <td>{{_id}}</td>",
+									"            <td>{{name}}</td>",
+									"            <td>{{description}}</td>",
+									"            <td>",
+									"                <ul>",
+									"                    {{#each products}}",
+									"                        <li>{{name}}</li>",
+									"                    {{/each}}",
+									"                </ul>",
+									"            </td>",
+									"        </tr>",
+									"    {{/each}}",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    var res = pm.response.json();",
+									"",
+									"    return { response: res };",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"    <th>_id</th>",
+									"        <th>Name</th>",
+									"        <th>Description</th>",
+									"        <th>Products</th>",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"        <td>{{response.categorySave._id}}</td>",
+									"        <td>{{response.categorySave.name}}</td>",
+									"        <td>{{response.categorySave.description}}</td>",
+									"        <td>{{response.categorySave.products}}</td>",
+									"    </tr>",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"  CAMISETAS \",\n  \"description\": \"descripcion de la categoria de camisetas\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/categories/6504f4fc48741b1b6f6c5c6c",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>Property</th>",
+									"        <th>Value</th>",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"        <td>_id</td>",
+									"        <td>{{response.category._id}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>Name</td>",
+									"        <td>{{response.category.name}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>Description</td>",
+									"        <td>{{response.category.description}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"         <td>Products</td>",
+									"        {{#each response.category.products}}",
+									"        <td>{{name}}</td>",
+									"        {{/each}}",
+									"    </tr>",
+									"   ",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/categories/6504fa0c769a12c0c606ea0d",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories",
+								"6504fa0c769a12c0c606ea0d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/categories/65076de4b5b7c1ca79e0ddd2",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"idProduct\": \"6507725fb5b7c1ca79e0de0c\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/categories/65076de4b5b7c1ca79e0ddd2",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories",
+								"65076de4b5b7c1ca79e0ddd2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/categories/65076de4b5b7c1ca79e0ddd2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>_id</th>",
+									"        <th>Name</th>",
+									"        <th>Description</th>",
+									"        <th>Products</th>",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"    <td>{{response.deletedCategory._id}}</td>",
+									"        <td>{{response.deletedCategory.name}}</td>",
+									"        <td>{{response.deletedCategory.description}}</td>",
+									"        <td>{{response.deletedCategory.products}}</td>",
+									"    </tr>",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/categories/65076de4b5b7c1ca79e0ddd2",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories",
+								"65076de4b5b7c1ca79e0ddd2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "localhost:3000/orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/orders",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "productCart",
+			"item": [
+				{
+					"name": "localhost:3000/productCart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>_id</th>",
+									"        <th>User</th>",
+									"        <th>Products</th>",
+									"        <th>Quantity</th>",
+									"        <th>Unit Price</th>",
+									"        <th>Sub Total</th>",
+									"        ",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"        <td>{{response.data._id}}</td>",
+									"        <td>{{response.data.user}}</td>",
+									"        <td>{{response.data.products}}</td>",
+									"        <td>{{response.data.quantity}}</td>",
+									"        <td>{{response.data.unitPrice}}</td>",
+									"        <td>{{response.data.subTotal}}</td>",
+									"        ",
+									"    </tr>",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": \"6507725fb5b7c1ca79e0de0c\",\n    \"quantity\": 3,\n    \"unitPrice\": 40000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/productCart/650651e8689fddabf3a8ace5",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productCart",
+								"650651e8689fddabf3a8ace5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/productCart/650651e8689fddabf3a8ace5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>_ID Cart</th>",
+									"        <th>_ID user</th>",
+									"        <th>_ID Product</th>",
+									"        <th>Product ID</th>",
+									"        <th>Product Name</th>",
+									"        <th>Quantity</th>",
+									"        <th>Unit Price</th>",
+									"        <th>Sub Total</th>",
+									"    </tr>",
+									"    ",
+									"    {{#each response.cartProducts}}",
+									"        <tr>",
+									"            <td>{{_id}}</td>",
+									"            <td>{{user}}</td>",
+									"            <td>{{products._id}}</td>",
+									"            <td>{{products.id}}</td>",
+									"            <td>{{products.name}}</td>",
+									"            <td>{{quantity}}</td>",
+									"            <td>{{unitPrice}}</td>",
+									"            <td>{{subTotal}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() };",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/productCart/650651e8689fddabf3a8ace5",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productCart",
+								"650651e8689fddabf3a8ace5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/productCart/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>Product _ID</th>",
+									"        <th>_Id User</th>",
+									"        <th>_idProducts</th>",
+									"        <th>Quantity</th>",
+									"        <th>Unit Price</th>",
+									"        <th>Sub Total</th>",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"        <td>{{response.productDeletedFromCart._id}}</td>",
+									"        <td>{{response.productDeletedFromCart.user}}</td>",
+									"        <td>{{response.productDeletedFromCart.products}}</td>",
+									"        <td>{{response.productDeletedFromCart.quantity}}</td>",
+									"        <td>{{response.productDeletedFromCart.unitPrice}}</td>",
+									"        <td>{{response.productDeletedFromCart.subTotal}}</td>",
+									"    </tr>",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/productCart/6506555d0d9addb30cc0fc49",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productCart",
+								"6506555d0d9addb30cc0fc49"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "shoppingCart",
+			"item": [
+				{
+					"name": "localhost:3000/shoppingCart/650651e8689fddabf3a8ace5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>_idCart</th>",
+									"        <th>_idUser</th>",
+									"        <th>Products Cart</th>",
+									"        <th>Total</th>",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"     <td>{{response.ShoppingCartSave._id}}</td>",
+									"        <td>{{response.ShoppingCartSave.user}}</td>",
+									"        <td>{{response.ShoppingCartSave.productsCart}}</td>",
+									"        <td>{{response.ShoppingCartSave.total}}</td>",
+									"    </tr>",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/shoppingCart/650651e8689fddabf3a8ace5",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"shoppingCart",
+								"650651e8689fddabf3a8ace5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/shoppingCart/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>Field</th>",
+									"        <th>Value</th>",
+									"    </tr>",
+									"    ",
+									"    <tr>",
+									"        <td>Status</td>",
+									"        <td>{{response.status}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>Shopping Cart ID</td>",
+									"        <td>{{response.updateShoppingCart._id}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>User</td>",
+									"        <td>{{response.updateShoppingCart.user}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>Products Cart</td>",
+									"        <td>{{response.updateShoppingCart.productsCart}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>Total</td>",
+									"        <td>{{response.updateShoppingCart.total}}</td>",
+									"    </tr>",
+									"    <tr>",
+									"        <td>Version</td>",
+									"        <td>{{response.updateShoppingCart.__v}}</td>",
+									"    </tr>",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\":\"650651e8689fddabf3a8ace5\",\n    \"productsCartId\":\"65078751d5c96dc229a9cc31\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/shoppingCart/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"shoppingCart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/shoppingCart/650651e8689fddabf3a8ace5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>Product ID</th>",
+									"        <th>User</th>",
+									"        <th>Quantity</th>",
+									"        <th>Unit Price</th>",
+									"        <th>Sub Total</th>",
+									"    </tr>",
+									"    ",
+									"    {{#each response.shoppingCart.productsCart}}",
+									"        <tr>",
+									"            <td>{{_id}}</td>",
+									"            <td>{{user}}</td>",
+									"            <td>{{quantity}}</td>",
+									"            <td>{{unitPrice}}</td>",
+									"            <td>{{subTotal}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() }",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/shoppingCart/650651e8689fddabf3a8ace5",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"shoppingCart",
+								"650651e8689fddabf3a8ace5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "payment",
+			"item": [
+				{
+					"name": "localhost:3000/payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 10000,\n    \"currency\": \"cop\",\n    \"description\": \"Compra de prueba\",\n    \"source\" :\"4242424242424242\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/payment",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"payment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
