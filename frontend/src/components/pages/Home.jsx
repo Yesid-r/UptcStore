@@ -1,8 +1,9 @@
 import React from 'react'
+import ProductList from '../product/ProductsList'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <ProductList />
   )
 }
 

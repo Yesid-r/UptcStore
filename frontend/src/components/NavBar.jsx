@@ -1,18 +1,29 @@
 
-import { Fragment, useState } from 'react'
+import { Fragment, useContext, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from '../assets/logo.png'
 import colombia from '../assets/Colombia.jpeg'
 import { navigation } from '../utils/constants'
+import { AuthContext } from '../context/AuthContext'
+import MenuUser from './user/MenuUser'
+import Cookies from 'js-cookie'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
+
 export default function Example() {
     const [open, setOpen] = useState(false)
-
+    const { user, dispatch } = useContext(AuthContext)
+    user ? console.log(user) : console.log('no user')
+    function handleLogout(){
+        Cookies.remove('accessToken', { path: '/' });
+        console.log(`cookies removed ${Cookies.get('accessToken')}`);
+        dispatch({ type: 'LOGOUT' });
+        navigate('/');
+    }
     return (
         <div className="bg-white">
             {/* Mobile menu */}
@@ -125,19 +136,40 @@ export default function Example() {
                                         </div>
                                     ))}
                                 </div>
+                                {
+                                    user ? <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                                        <div className="flow-root">
+                                            <a href="/settings" className="-m-2 block p-2 font-medium text-gray-900">
+                                                Ajustes
+                                            </a>
+                                        </div>
+                                        <div className="flow-root">
+                                            <a href="/wishlist" className="-m-2 block p-2 font-medium text-gray-900">
+                                                Favoritos
+                                            </a>
+                                        </div>
+                                        <div className="flow-root">
+                                            <a onClick={handleLogout} className="-m-2 block p-2 font-medium text-gray-900">
+                                                Cerrar sesion
+                                            </a>
+                                        </div>
+                                    </div> :
+                                        <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                                            <div className="flow-root">
+                                                <a href="/login" className="-m-2 block p-2 font-medium text-gray-900">
+                                                    Sign in
+                                                </a>
+                                            </div>
+                                            <div className="flow-root">
+                                                <a href="/register" className="-m-2 block p-2 font-medium text-gray-900">
+                                                    Create account
+                                                </a>
+                                            </div>
+                                        </div>
+                                }
 
-                                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                                    <div className="flow-root">
-                                        <a href="/login" className="-m-2 block p-2 font-medium text-gray-900">
-                                            Sign in
-                                        </a>
-                                    </div>
-                                    <div className="flow-root">
-                                        <a href="/register" className="-m-2 block p-2 font-medium text-gray-900">
-                                            Create account
-                                        </a>
-                                    </div>
-                                </div>
+
+
 
                                 <div className="border-t border-gray-200 px-4 py-6">
                                     <a href="#" className="-m-2 flex items-center p-2">
@@ -187,13 +219,13 @@ export default function Example() {
                             </div>
 
                             {/* Flyout menus */}
-                            <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
-                                <div className="flex h-full space-x-8">
+                            <Popover.Group className="hidden  bg-white lg:ml-8 lg:block lg:self-stretch">
+                                <div className="flex bg-white h-full space-x-8">
                                     {navigation.categories.map((category) => (
                                         <Popover key={category.name} className="flex">
                                             {({ open }) => (
                                                 <>
-                                                    <div className="relative flex">
+                                                    <div className="bg-white relative flex">
                                                         <Popover.Button
                                                             className={classNames(
                                                                 open
@@ -285,9 +317,8 @@ export default function Example() {
                                     ))}
                                 </div>
                             </Popover.Group>
-
-                            <div className="ml-auto flex items-center">
-                                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                            {
+                                user ? <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'> <MenuUser /></div> : (<div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                                     <a href="/login" className="text-sm font-medium text-gray-700 hover:text-gray-800">
                                         Sign in
                                     </a>
@@ -295,7 +326,11 @@ export default function Example() {
                                     <a href="/register" className="text-sm font-medium text-gray-700 hover:text-gray-800">
                                         Create account
                                     </a>
-                                </div>
+                                </div>)
+                            }
+
+                            <div className="ml-auto flex items-center">
+
 
                                 <div className="hidden lg:ml-8 lg:flex">
                                     <a href="#" className="flex items-center text-gray-700 hover:text-gray-800">

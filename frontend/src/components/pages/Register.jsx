@@ -1,7 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { API_URL } from '../utils/constants';
 
 
 const Register = () => {
+
+    const [formData, setFormData] = useState({
+        name: '',
+        lastname: '',
+        email: '',
+        password: '',
+        phone: 0
+    });
+    const [alert, setAlert] = useState(null);
+    const [data, setData] = useState({});
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        console.log(formData);
+        try {
+            const res = await fetch(`${API_URL}/auth/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+            const data = await res.json();
+            console.log(data);
+            setData(data);
+            setAlert(data.message);
+
+            setTimeout(() => {
+                setAlert(null);
+            }, 3000);
+            if (data.succes) {
+                // dispatch({ type: "REGISTER_SUCCES", payload: data.data });
+                window.location.href = "/";
+            }
+        } catch (error) {
+            setAlert(error.message);
+            setTimeout(() => {
+                setAlert(null);
+            }, 3000);
+        }
+
+    }
+
 
 
     return (
@@ -11,12 +55,24 @@ const Register = () => {
                 <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6 rounded-lg shadow-md border border-gray-300">
                     <div className="flex-1">
                         <div className="text-center">
-                            
+
                             <p className=" text-3xl font-bold text-gray-950 " >Regístrate</p>
                         </div>
+                        {alert && (
+                            <div
+                                className={`${data.succes
+                                    ? "bg-green-100 border-t border-b border-green-500 text-green-700"
+                                    : "bg-red-100 border-t border-b border-red-500 text-red-700"
+                                    } px-4 py-3`}
+                                role="alert"
+                            >
+                                <p className="font-bold">{data.succes ? "Success" : "Error"}</p>
+                                <p className="text-sm">{alert}</p>
+                            </div>
+                        )}
 
                         <div className="mt-8">
-                            <form>
+                            <form onSubmit={handleSubmit}>
                                 <div>
                                     <label htmlFor="name" className="block mb-2 text-sm text-gray-600 ">Nombre</label>
                                     <input
@@ -25,6 +81,8 @@ const Register = () => {
                                         id="name"
                                         placeholder="Your Name"
                                         className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                                        onChange={e => setFormData({ ...formData, name: e.target.value })}
+                                        required
                                     />
                                 </div>
 
@@ -36,17 +94,22 @@ const Register = () => {
                                         id="lastName"
                                         placeholder="Your Last Name"
                                         className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                                        onChange={e => setFormData({ ...formData, lastname: e.target.value })}
+                                        required
                                     />
                                 </div>
 
                                 <div>
                                     <label htmlFor="phoneNumber" className="block mb-2 text-sm text-gray-600">Teléfono</label>
                                     <input
-                                        type="tel"
+                                        type="number"
                                         name="phoneNumber"
                                         id="phoneNumber"
                                         placeholder="Your Phone Number"
                                         className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                                        onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                                        required
+                                        
                                     />
                                 </div>
                                 <div>
@@ -57,6 +120,8 @@ const Register = () => {
                                         id="email"
                                         placeholder="example@example.com"
                                         className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                                        onChange={e => setFormData({ ...formData, email: e.target.value })}
+                                        required
                                     />
                                 </div>
 
@@ -71,12 +136,15 @@ const Register = () => {
                                         id="password"
                                         placeholder="Your Password"
                                         className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                                        onChange={e => setFormData({ ...formData, password: e.target.value })}
+                                        required
                                     />
                                 </div>
 
                                 <div className="mt-6">
                                     <button
                                         className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                                        type='submit'
                                     >
                                         Registrarse
                                     </button>

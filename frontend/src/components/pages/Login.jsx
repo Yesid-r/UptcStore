@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { API_URL } from '../utils/constants';
 import { AuthContext } from '../../context/AuthContext';
+import Cookies from 'js-cookie';
 
 const Login = () => {
     const [email, setEmail] = useState('')
@@ -23,13 +24,15 @@ const Login = () => {
             console.log(data);
             setData(data);
             setAlert(data.message);
+            
 
             setTimeout(() => {
                 setAlert(null);
             }, 3000);
             if (data.success) {
-                dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
-                localStorage.setItem("token", data.token);
+                Cookies.set('accessToken', data.token, { expires: 1, path: '/' });
+
+                dispatch({type: 'LOGIN_SUCCESS', payload: data.data})
                 window.location.href = "/";
             }
         } catch (error) {
