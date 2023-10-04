@@ -16,7 +16,9 @@ export const obtainAll = async (req, res) => {
     }
 }
 export const createCategory = async (req, res) => {
+    console.log(req.files)
     try {
+       
         const categoryJSON = new Category(req.body)
         const dataCategorySave = await categoryJSON.save()
         return res.status(200).json({
