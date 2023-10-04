@@ -1,7 +1,6 @@
-
-
 import Category from '../models/Category.js'
 import product from '../models/product.js'
+import { uploadImage } from '../utils/cloudinary.js'
 
 export const obtainAll = async (req, res) => {
     try {
@@ -20,11 +19,21 @@ export const obtainAll = async (req, res) => {
 
 export const saveProduct = async (req, res) => {
     const idCategoria = req.body.category
-    console.log(req.body)
+    console.log(req.files)
     try {
         console.log(`category to search: ${idCategoria}`)
         const category = await Category.findById(idCategoria)
         console.log(category)
+
+
+       if(req.files?.image){
+        const result = await uploadImage(req.files.image.tempFilePath)
+        console.log(result)
+
+       }
+
+
+
         if (category == null) {
             return res.status(404).json({
                 "status": false,
