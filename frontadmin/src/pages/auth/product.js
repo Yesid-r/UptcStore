@@ -15,12 +15,12 @@ import Head from 'next/head';
 
 
 const Page = () => {
-
+  const [filea, setFilea] = React.useState('');
   const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
+    setFilea(event.target.files[0]);
+    if (filea) {
       
-      console.log("Archivo seleccionado:", selectedFile.name);
+      console.log("Archivo seleccionado:", filea.name);
      
     }
   };
@@ -49,7 +49,7 @@ const Page = () => {
       name: '', 
       description: '', 
       price: 0, 
-      images: ["imagen1.jpg"],
+      images: filea,
       stock: 0, 
       availability: estado, 
       category: '', 
@@ -81,25 +81,24 @@ const Page = () => {
       .required('Stock es requerido'),
     }),
     onSubmit: async (values, helpers) => {
-      console.log("holaaaaaaa")
-      const postData = {
-        name: values.name,
-        description: values.description,
-        price: values.price,
-        images: values.images,
-        stock: values.stock,
-        availability: values.availability,
-        category: values.category,
-        subcategory: values.subcategory
-      };
-    
+      const formData = new FormData();
+      if (filea) {
+        formData.append('image', filea);
+      }
+      
+      // Agrega otros campos al formulario
+      formData.append('name', values.name);
+      formData.append('description', values.description);
+      formData.append('price', values.price);
+      formData.append('stock', values.stock);
+      formData.append('availability', values.availability);
+      formData.append('category', values.category);
+      formData.append('subcategory', values.subcategory);
+      
       try {
         const response = await fetch('http://localhost:3001/products/', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(postData)
+          body: formData // Usa el objeto FormData en lugar de JSON.stringify
         });
     
         if (response.ok) {
@@ -234,7 +233,7 @@ const Page = () => {
                    
                     onChange={handleChange}
                     error={!!(formik.touched.availability && formik.errors.availability)}
-                    helperText={formik.touched.availability && formik.errors.availability}
+                   
                     fullWidth
                   >
                     <MenuItem value="">
@@ -253,7 +252,7 @@ const Page = () => {
                     value={categoria}
                     onChange={handleChange2}
                     error={!!(formik.touched.stock && formik.errors.stock)}
-                    helperText={formik.touched.stock && formik.errors.stock}
+                   
                   >
                     <MenuItem value="">
                       <em>None</em>
