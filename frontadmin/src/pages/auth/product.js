@@ -12,7 +12,20 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Head from 'next/head';
+
+
 const Page = () => {
+
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      console.log("Archivo seleccionado:", selectedFile.name);
+      // Puedes almacenar el archivo seleccionado en una constante si lo deseas
+      // const archivoSeleccionado = selectedFile;
+      // Aquí puedes realizar otras acciones con el archivo, como cargarlo en tu aplicación.
+    }
+  };
+  
   const router = useRouter();
   const auth = useAuth();
   const [estado, setEstado] = React.useState('');
@@ -31,7 +44,7 @@ const Page = () => {
     formik.setFieldValue('category', event.target.value);
     console.log("hola . " + event.target.value)
   };
-  
+
   const formik = useFormik({
     initialValues: {
       name: '', 
@@ -93,6 +106,9 @@ const Page = () => {
         if (response.ok) {
           
           console.log('Solicitud POST exitosa');
+          helpers.setStatus({ success: false });
+          helpers.setErrors({ submit: "Producto agregado"});
+          helpers.setSubmitting(false);
         } else {
           // Manejar errores en caso de una respuesta no exitosa
           const errorData = await response.json();
@@ -105,7 +121,7 @@ const Page = () => {
         // Manejar errores en caso de un error de red u otra excepción
         console.error('Error en la solicitud POST:', err);
         helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: 'Error en la solicitud POST' });
+        helpers.setErrors({ submit: err.message });
         helpers.setSubmitting(false);
       }
     }
@@ -243,22 +259,16 @@ const Page = () => {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value="651ce1527436ec4e96d80c60">Libros</MenuItem>
-                    <MenuItem value="Ropa">Ropa</MenuItem>
-                    <MenuItem value="Tecnología">Tecnología</MenuItem>
-                    <MenuItem value="Comida">Comida</MenuItem>
-                    <MenuItem value="Deportes">Deportes</MenuItem>
-                    <MenuItem value="Electrónica">Electrónica</MenuItem>
-                    <MenuItem value="Arte y Manualidades">Arte y Manualidades</MenuItem>
-                    <MenuItem value="Juguetes">Juguetes</MenuItem>
-                    <MenuItem value="Accesorios">Accesorios</MenuItem>
-                    <MenuItem value="Instrumentos Musicales">Instrumentos Musicales</MenuItem>
+                    <MenuItem value="651a01d23f0e950ef7991a19">Libros</MenuItem>
+                    <MenuItem value="651a02783f0e950ef7991a1d">Ropa</MenuItem>
+                    <MenuItem value="651a022c3f0e950ef7991a1b">Papeleria</MenuItem>
+                    <MenuItem value="651a02cf3f0e950ef7991a20">Accesorios</MenuItem>
                   </Select>
                 </FormControl>
 
                 <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                 Upload file
-                <VisuallyHiddenInput type="file" />
+                <VisuallyHiddenInput type="file" onChange={handleFileChange}/>
               </Button>
               </Stack>
               {formik.errors.submit && (

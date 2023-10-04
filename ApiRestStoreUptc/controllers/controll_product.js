@@ -20,7 +20,9 @@ export const obtainAll = async (req, res) => {
 
 export const saveProduct = async (req, res) => {
     const idCategoria = req.body.category
-    console.log(req.body)
+    
+
+    console.log(req.files)
     try {
         console.log(`category to search: ${idCategoria}`)
         const category = await Category.findById(idCategoria)
