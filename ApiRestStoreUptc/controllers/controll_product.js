@@ -1,7 +1,7 @@
 import Category from '../models/Category.js'
 import product from '../models/product.js'
 import { uploadImage } from '../utils/cloudinary.js'
-
+import fs from 'fs-extra'
 export const obtainAll = async (req, res) => {
     try {
         const dataProducts = await product.find()
@@ -18,41 +18,46 @@ export const obtainAll = async (req, res) => {
 }
 
 export const saveProduct = async (req, res) => {
-    const idCategoria = req.body.category
-    console.log(req.files)
+    const idCategoria = req.body.category;
+
     try {
-        console.log(`category to search: ${idCategoria}`)
-        const category = await Category.findById(idCategoria)
-        console.log(category)
-
-
-       if(req.files?.image){
-        const result = await uploadImage(req.files.image.tempFilePath)
-        console.log(result)
-
-       }
-
-
+        console.log(`category to search: ${idCategoria}`);
+        const category = await Category.findById(idCategoria);
 
         if (category == null) {
             return res.status(404).json({
                 "status": false,
                 "message": "Category not found"
-            })
+            });
         }
-        const productJSON = new product(req.body)
-        const dataProductSave = await productJSON.save()
+
+        const newProduct = new product(req.body);
+
+        if (req.files?.image) {
+            const result = await uploadImage(req.files.image.tempFilePath);
+
+            newProduct.images = {
+                public_id: result.public_id,
+                secure_url: result.secure_url
+            };
+
+            // Elimina el archivo temporal después de cargarlo
+            await fs.unlink(req.files.image.tempFilePath);
+        }
+
+        const dataProductSave = await newProduct.save();
+
         return res.status(200).json({
-            "status:": true,
-            "dataProduct": dataProductSave,
-        })
+            "status": true,
+            "dataProduct": dataProductSave
+        });
     } catch (error) {
-        return res.status(200).json({
+        return res.status(500).json({
             "status": false,
-            "error": error
-        })
+            "error": error.message
+        });
     }
-}
+};
 export const modifyProduct = async (req, res) => {
     try {
         const id = req.params.id

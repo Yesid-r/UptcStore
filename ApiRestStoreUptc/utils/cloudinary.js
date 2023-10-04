@@ -14,7 +14,7 @@ cloudinary.config({
 
 
 export const uploadImage = async (filePath) => {
-  console.log(CLOUD, API_SECRET, API_KEY,)
+  
   return await cloudinary.uploader.upload(filePath, {
     folder: 'replit'
   })
