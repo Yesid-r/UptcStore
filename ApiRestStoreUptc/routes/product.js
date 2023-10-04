@@ -1,5 +1,5 @@
 import express from 'express'
-const router = express.Router()
+const router = express();
 import {obtainAll, saveProduct, modifyProduct, deleteProduct, findProductById} from '../controllers/controll_product.js'
 
 router.get('/', obtainAll)
