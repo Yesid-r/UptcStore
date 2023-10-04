@@ -43,6 +43,44 @@ const Page = () => {
     formik.setFieldValue('category', event.target.value);
     console.log("hola . " + event.target.value)
   };
+  
+  const categorias = [
+    { id: "651a01d23f0e950ef7991a19", nombre: "Libreria" },
+    { id: "651a022c3f0e950ef7991a1b", nombre: "Papeleria" },
+    { id: "651a02783f0e950ef7991a1d", nombre: "Ropa" },
+    { id: "651a02cf3f0e950ef7991a20", nombre: "Accesorios" }
+    // Agrega más categorías aquí
+  ];
+  
+  const subcategorias = [
+    { id: "subcategoria1", nombre: "Ingenieria", categoriaId: "651a01d23f0e950ef7991a19" },
+    { id: "subcategoria2", nombre: "Administracion", categoriaId: "651a01d23f0e950ef7991a19" },
+    { id: "subcategoria3", nombre: "Finanzas", categoriaId: "651a01d23f0e950ef7991a19" },
+    { id: "subcategoria4", nombre: "Contabilidad", categoriaId: "651a01d23f0e950ef7991a19" },
+
+    { id: "subcategoria5", nombre: "Esferos", categoriaId: "651a022c3f0e950ef7991a1b" },
+    { id: "subcategoria6", nombre: "Agendas", categoriaId: "651a022c3f0e950ef7991a1b" },
+    { id: "subcategoria7", nombre: "Cuadernos", categoriaId: "651a022c3f0e950ef7991a1b" },
+    { id: "subcategoria8", nombre: "Libretas", categoriaId: "651a022c3f0e950ef7991a1b" },
+
+    { id: "subcategoria9", nombre: "Camisas", categoriaId: "651a02783f0e950ef7991a1d" },
+    { id: "subcategoria10", nombre: "Busos", categoriaId: "651a02783f0e950ef7991a1d" },
+    { id: "subcategoria11", nombre: "Chaquetas", categoriaId: "651a02783f0e950ef7991a1d" },
+    { id: "subcategoria12", nombre: "Chalecos", categoriaId: "651a02783f0e950ef7991a1d" },
+    { id: "subcategoria13", nombre: "Gorras", categoriaId: "651a02783f0e950ef7991a1d" },
+    { id: "subcategoria14", nombre: "Botas", categoriaId: "651a02783f0e950ef7991a1d" },
+
+    { id: "subcategoria15", nombre: "Bebidas", categoriaId: "651a02cf3f0e950ef7991a20" },
+    { id: "subcategoria16", nombre: "Bolsos", categoriaId: "651a02cf3f0e950ef7991a20" },
+    { id: "subcategoria17", nombre: "Llaveros", categoriaId: "651a02cf3f0e950ef7991a20" },
+    { id: "subcategoria18", nombre: "Canguros", categoriaId: "651a02cf3f0e950ef7991a20" },
+    { id: "subcategoria19", nombre: "Oficina", categoriaId: "651a02cf3f0e950ef7991a20" },
+    { id: "subcategoria20", nombre: "Paraguas", categoriaId: "651a02cf3f0e950ef7991a20" },
+    // Agrega más subcategorías aquí
+  ];
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
+  const [subcategoriaSeleccionada, setSubcategoriaSeleccionada] = useState("");
+
 
   const formik = useFormik({
     initialValues: {
@@ -53,7 +91,7 @@ const Page = () => {
       stock: 0, 
       availability: estado, 
       category: '', 
-      subcategory: 'fsdf' ,
+      subcategory: '' ,
       submit: null
     },
     validationSchema: Yup.object({
@@ -76,6 +114,9 @@ const Page = () => {
       category: Yup
       .string()
       .required('Categoría es requerida'),
+      subcategory: Yup
+      .string()
+      .required('SubCategoria es requerida'),
       availability: Yup
       .string()
       .required('Stock es requerido'),
@@ -249,18 +290,51 @@ const Page = () => {
                   <Select
                     labelId="demo-simple-select-filled-label"
                     id="demo-simple-select-filled"
-                    value={categoria}
-                    onChange={handleChange2}
-                    error={!!(formik.touched.stock && formik.errors.stock)}
-                   
+                    value={categoriaSeleccionada}
+                    onChange={(e) => {
+                      const categoriaId = e.target.value;
+                      setCategoriaSeleccionada(categoriaId);
+                      formik.setFieldValue('category', categoriaId);
+                      // Limpia la subcategoría al cambiar la categoría
+                      setSubcategoriaSeleccionada("");
+                      
+                    }}
                   >
                     <MenuItem value="">
-                      <em>None</em>
+                      <em>Selcciona una categoria</em>
                     </MenuItem>
-                    <MenuItem value="651a01d23f0e950ef7991a19">Libros</MenuItem>
-                    <MenuItem value="651a02783f0e950ef7991a1d">Ropa</MenuItem>
-                    <MenuItem value="651a022c3f0e950ef7991a1b">Papeleria</MenuItem>
-                    <MenuItem value="651a02cf3f0e950ef7991a20">Accesorios</MenuItem>
+                    {categorias.map((categoria) => (
+                    <MenuItem key={categoria.id} value={categoria.id}>
+                      {categoria.nombre}
+                    </MenuItem>
+                  ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label"> Sub Categoria</InputLabel>
+                  <Select
+                    labelId="subcategoria-label"
+                    id="subcategoria-select"
+                    value={subcategoriaSeleccionada}
+                    onChange={(e) => {
+                      setSubcategoriaSeleccionada(e.target.value)
+                      console.log(e.target.value)
+                      formik.setFieldValue('subcategory', e.target.value);
+                    }}
+                    disabled={!categoriaSeleccionada} // Deshabilita si no se ha seleccionado una categoría
+                    
+                  >
+                    <MenuItem value="">
+                      <em>Selecciona una subcategoría</em>
+                    </MenuItem>
+                    {subcategorias 
+                      .filter((subcategoria) => subcategoria.categoriaId === categoriaSeleccionada)
+                      .map((subcategoria) => (
+                        <MenuItem key={subcategoria.id} value={subcategoria.nombre}>
+                          {subcategoria.nombre}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
 
