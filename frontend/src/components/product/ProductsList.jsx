@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
-import { API_URL } from '../utils/constants';
+import { API_PAYMENT, API_URL } from '../utils/constants';
 
 
 
@@ -24,10 +24,42 @@ const ProductList = () => {
         }
         fetchProducts()
     },[])
+    const items =[
+        {
+          title: "Agenda",
+          unit_price: 15000,
+          currency_id: "COP",
+          quantity: 1
+        },{
+          title:"Agenda 2",
+          unit_price: 25000,
+          currency_id: "COP",
+          quantity: 2
+        }
+      ]
+    const handlePay = async () => {
+
+        try {
+            const response = await fetch(`${API_PAYMENT}/create-order`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({items})
+            })
+            const data = await response.json()
+            console.log(data.init_point)
+            window.location.href = data.init_point
+        }
+        catch (error) {
+            console.log(error.message)
+        }
+    }
 
     return (
         <div>
             <section className="bg-white py-8">
+                <button onClick={handlePay}>pay</button>
                 <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12">
                     <nav id="store" className="w-full z-30 top-0 px-6 py-1">
                         <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
@@ -48,18 +80,14 @@ const ProductList = () => {
                             </div>
                         </div>
                     </nav>
-                    {
+                     {
                         loading ? <h1>Loading...</h1> : error ? <h1>{error}</h1> : (
                             products.map(product => (
-                                <ProductCard
-                                    key={product._id}
-                                    imageUrl={product.images[0]}
-                                    productName={product.name}
-                                    price={product.price}
+                                <ProductCard data={product}
                                 />
                             ))
                         )
-                    }
+                    } 
 
                 </div>
             </section>

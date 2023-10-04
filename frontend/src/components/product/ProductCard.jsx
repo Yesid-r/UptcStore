@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { ShopContext } from '../../context/shop-context'
 
-const ProductCard = ({ imageUrl, productName, price }) => {
+const ProductCard = (props) => {
+  
+  
+  const {  _id,name, price, images } = props.data;
+  const { addToCart, cartItems } = useContext(ShopContext);
+  const cartItemCount = cartItems[_id];
+
   return (
     <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-    <a href="#">
-      <img className="hover:grow hover:shadow-lg" src={imageUrl} alt={productName}  />
+    <div href="#">
+      <img className="hover:grow hover:shadow-lg" src={''} alt={name}  />
       <div className="pt-3 flex items-center justify-between">
-        <p className="">{productName}</p>
+        <p className="">{name}</p>
         <svg
           className="h-6 w-6 fill-current text-gray-500 hover:text-black"
           xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +23,10 @@ const ProductCard = ({ imageUrl, productName, price }) => {
         </svg>
       </div>
       <p className="pt-1 text-gray-900">{price}</p>
-    </a>
+      <button className="addToCartBttn" onClick={()=> addToCart(_id)} >
+        Add To Cart {cartItemCount > 0 && <> ({cartItemCount})</>}
+      </button>
+    </div>
   </div>
   )
 }

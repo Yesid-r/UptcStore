@@ -4,6 +4,7 @@ import NavBar from './components/NavBar'
 
 const App = () => {
   return (
+    
     <Layout />
     // <NavBar />
   )
