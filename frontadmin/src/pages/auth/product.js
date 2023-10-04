@@ -19,10 +19,9 @@ const Page = () => {
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
+      
       console.log("Archivo seleccionado:", selectedFile.name);
-      // Puedes almacenar el archivo seleccionado en una constante si lo deseas
-      // const archivoSeleccionado = selectedFile;
-      // Aquí puedes realizar otras acciones con el archivo, como cargarlo en tu aplicación.
+     
     }
   };
   

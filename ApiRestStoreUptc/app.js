@@ -47,11 +47,6 @@ app.use('/categories', categoryRouter)
 app.use('/products', productRouter)
 app.use('/auth', authRouter)
 
-app.use(fileUpload({
-    useTempFiles : true,
-    tempFileDir : './galery'
-}));
-
 // app.use('/categories', require('./routes/category'))
 // app.use('/orders', require('./routes/order'))
 // app.use('/productCart', require('./routes/productCart'))
