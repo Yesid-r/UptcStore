@@ -54,10 +54,18 @@ const Page = () => {
         });
     
         if (response.ok) {
-          // Si la respuesta del servidor es exitosa (código 200),
-          // puedes redirigir al usuario a otra página (por ejemplo, '/')
+          
+          const userData = await response.json(); // Obtiene los datos del usuario
+          const { name, email } = userData; // Extrae el nombre y el email del objeto
+          // Guarda los datos en tu aplicación como sea necesario
+          console.log(`Nombre del usuario: ${name}`);
+          console.log(`Email del usuario: ${email}`);
+          
           auth.skip();
           router.push('/');
+        
+          // También puedes usar los datos en otras partes de tu aplicación si es necesario
+         
         } else {
           // Si la respuesta del servidor no es exitosa, maneja el error
           const errorData = await response.json();

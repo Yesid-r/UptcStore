@@ -1,169 +1,160 @@
+import { useCallback, useMemo, useState } from 'react';
 import Head from 'next/head';
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
+import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
+import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import {
-  Box,
-  Button,
-  Container,
-  Pagination,
-  Stack,
-  SvgIcon,
-  Typography,
-  Unstable_Grid2 as Grid
-} from '@mui/material';
+import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
+import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { CompanyCard } from 'src/sections/companies/company-card';
-import { CompaniesSearch } from 'src/sections/companies/companies-search';
+import { CustomersTable } from 'src/sections/customer/customers-table';
+import { ProductsTable} from 'src/sections/customer/products-table';
+import { CustomersSearch } from 'src/sections/customer/customers-search';
+import { applyPagination } from 'src/utils/apply-pagination';
+import Addproc from './auth/product'
+import { UsersTable} from 'src/sections/customer/users-table';
 
-const companies = [
+const now = new Date();
+
+const data = [
   {
-    id: '2569ce0d517a7f06d3ea1f24',
-    createdAt: '27/03/2019',
-    description: 'Dropbox is a file hosting service that offers cloud storage, file synchronization, a personal cloud.',
-    logo: '/assets/logos/logo-dropbox.png',
-    title: 'Dropbox',
-    downloads: '594'
+    id: '5e887ac47eed253091be10cb',
+    address: {
+      city: 'Cleveland',
+      country: 'USA',
+      state: 'Ohio',
+      street: '2849 Fulton Street'
+    },
+    avatar: '/assets/avatars/avatar-carson-darrin.png',
+    createdAt: subDays(subHours(now, 7), 1).getTime(),
+    email: 'carson.darrin@devias.io',
+    name: 'Carson Darrin',
+    phone: '304-428-3097'
   },
-  {
-    id: 'ed2b900870ceba72d203ec15',
-    createdAt: '31/03/2019',
-    description: 'Medium is an online publishing platform developed by Evan Williams, and launched in August 2012.',
-    logo: '/assets/logos/logo-medium.png',
-    title: 'Medium Corporation',
-    downloads: '625'
-  },
-  {
-    id: 'a033e38768c82fca90df3db7',
-    createdAt: '03/04/2019',
-    description: 'Slack is a cloud-based set of team collaboration tools and services, founded by Stewart Butterfield.',
-    logo: '/assets/logos/logo-slack.png',
-    title: 'Slack',
-    downloads: '857'
-  },
-  {
-    id: '1efecb2bf6a51def9869ab0f',
-    createdAt: '04/04/2019',
-    description: 'Lyft is an on-demand transportation company based in San Francisco, California.',
-    logo: '/assets/logos/logo-lyft.png',
-    title: 'Lyft',
-    downloads: '406'
-  },
-  {
-    id: '1ed68149f65fbc6089b5fd07',
-    createdAt: '04/04/2019',
-    description: 'GitHub is a web-based hosting service for version control of code using Git.',
-    logo: '/assets/logos/logo-github.png',
-    title: 'GitHub',
-    downloads: '835'
-  },
-  {
-    id: '5dab321376eff6177407e887',
-    createdAt: '04/04/2019',
-    description: 'Squarespace provides software as a service for website building and hosting. Headquartered in NYC.',
-    logo: '/assets/logos/logo-squarespace.png',
-    title: 'Squarespace',
-    downloads: '835'
-  }
+  
 ];
 
-const Page = () => (
-  <>
-    <Head>
-      <title>
-        Companies | Devias Kit
-      </title>
-    </Head>
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8
-      }}
-    >
-      <Container maxWidth="xl">
-        <Stack spacing={3}>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            spacing={4}
-          >
-            <Stack spacing={1}>
-              <Typography variant="h4">
-                Companies
-              </Typography>
-              <Stack
-                alignItems="center"
-                direction="row"
-                spacing={1}
-              >
-                <Button
-                  color="inherit"
-                  startIcon={(
-                    <SvgIcon fontSize="small">
-                      <ArrowUpOnSquareIcon />
-                    </SvgIcon>
-                  )}
+const useCustomers = (page, rowsPerPage) => {
+  return useMemo(
+    () => {
+      return applyPagination(data, page, rowsPerPage);
+    },
+    [page, rowsPerPage]
+  );
+};
+
+const useCustomerIds = (customers) => {
+  return useMemo(
+    () => {
+      return customers.map((customer) => customer.id);
+    },
+    [customers]
+  );
+};
+
+const Page = () => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const customers = useCustomers(page, rowsPerPage);
+  const customersIds = useCustomerIds(customers);
+  const customersSelection = useSelection(customersIds);
+
+  const handlePageChange = useCallback(
+    (event, value) => {
+      setPage(value);
+    },
+    []
+  );
+
+  const handleRowsPerPageChange = useCallback(
+    (event) => {
+      setRowsPerPage(event.target.value);
+    },
+    []
+  );
+  const [mostrarAddproc, setMostrarAddproc] = useState(false);
+
+  const mostrarOcultarAddproc = () => {
+    setMostrarAddproc(!mostrarAddproc);
+  };
+  return (
+    <>
+      <Head>
+        <title>
+          Productos
+        </title>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8
+        }}
+      >
+        <Container maxWidth="xl">
+          <Stack spacing={3}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              spacing={4}
+            >
+              <Stack spacing={1}>
+                <Typography variant="h4">
+                  Productos
+                </Typography>
+                <Stack
+                  alignItems="center"
+                  direction="row"
+                  spacing={1}
                 >
-                  Import
-                </Button>
-                <Button
-                  color="inherit"
-                  startIcon={(
-                    <SvgIcon fontSize="small">
-                      <ArrowDownOnSquareIcon />
-                    </SvgIcon>
-                  )}
-                >
-                  Export
-                </Button>
+                  <Button
+                    color="inherit"
+                    startIcon={(
+                      <SvgIcon fontSize="small">
+                        <ArrowUpOnSquareIcon />
+                      </SvgIcon>
+                    )}
+                  >
+                    Import
+                  </Button>
+                  <Button
+                    color="inherit"
+                    startIcon={(
+                      <SvgIcon fontSize="small">
+                        <ArrowDownOnSquareIcon />
+                      </SvgIcon>
+                    )}
+                  >
+                    Export
+                  </Button>
+                </Stack>
               </Stack>
+              <div>
+                
+                
+              </div>
             </Stack>
-            <div>
-              <Button
-                startIcon={(
-                  <SvgIcon fontSize="small">
-                    <PlusIcon />
-                  </SvgIcon>
-                )}
-                variant="contained"
-              >
-                Add
-              </Button>
-            </div>
-          </Stack>
-          <CompaniesSearch />
-          <Grid
-            container
-            spacing={3}
-          >
-            {companies.map((company) => (
-              <Grid
-                xs={12}
-                md={6}
-                lg={4}
-                key={company.id}
-              >
-                <CompanyCard company={company} />
-              </Grid>
-            ))}
-          </Grid>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
-            <Pagination
-              count={3}
-              size="small"
+           
+            <CustomersSearch />
+            <UsersTable
+              count={data.length}
+              items={customers}
+              onDeselectAll={customersSelection.handleDeselectAll}
+              onDeselectOne={customersSelection.handleDeselectOne}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+              onSelectAll={customersSelection.handleSelectAll}
+              onSelectOne={customersSelection.handleSelectOne}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              selected={customersSelection.selected}
             />
-          </Box>
-        </Stack>
-      </Container>
-    </Box>
-  </>
-);
+          </Stack>
+        </Container>
+      </Box>
+    </>
+  );
+};
 
 Page.getLayout = (page) => (
   <DashboardLayout>

@@ -177,7 +177,9 @@ export const loginAdminSeller = async (req, res) => {
 
         return res.status(200).json({
             "status": true,
-            "message": "Inicio de sesión exitoso"
+            "message": "Inicio de sesión exitoso",
+            "name": User.name,
+            "email": User.email
         });
 
     } catch (error) {

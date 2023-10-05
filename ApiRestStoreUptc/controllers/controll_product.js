@@ -32,7 +32,7 @@ export const saveProduct = async (req, res) => {
         }
 
         const newProduct = new product(req.body);
-
+        console.log(req.files)
         if (req.files?.image) {
             const result = await uploadImage(req.files.image.tempFilePath);
 
