@@ -3,7 +3,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 const app = express()
-import fileUpload from 'express-fileupload'
+
 import authRouter from './routes/auth.js'
 import userRouter from './routes/user.js'
 import categoryRouter from './routes/category.js'
@@ -41,10 +41,7 @@ app.listen(app.get('PORT'), ()=>{
 })
 
 
-app.use(fileUpload({
-    useTempFiles : true,
-    tempFileDir : './galery'
-}));
+
 // app.use('/auth', require('./routes/auth'))
 // app.use('/products', require('./routes/product'))
 app.use('/users', userRouter)

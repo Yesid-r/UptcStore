@@ -1,6 +1,6 @@
 import Category from '../models/Category.js'
 import product from '../models/product.js'
-import { uploadImage } from '../utils/cloudinary.js'
+import { uploadImage, deleteImage } from '../utils/cloudinary.js'
 import fs from 'fs-extra'
 export const obtainAll = async (req, res) => {
     try {
@@ -73,6 +73,7 @@ export const modifyProduct = async (req, res) => {
             "error": error
         })
     }
+    
 }
 export const deleteProduct = async (req, res) => {
     try {
@@ -81,13 +82,16 @@ export const deleteProduct = async (req, res) => {
         return res.status(200).json({
             "status": true,
             "productDeleted": productDeleted
+            
         })
+        await deleteImage(productDeleted.images.public_id)
     } catch (error) {
         return res.status(500).json({
             "status": false,
             "error": error
         })
     }
+   
 }
 
 export const findProductById = async (req, res) => {
