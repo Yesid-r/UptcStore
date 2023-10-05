@@ -71,7 +71,13 @@ export const ProductsTable = (props) => {
         console.error('Error al eliminar producto:', error);
       });
   };
-  
+  const [showEdit, setShowEdit] = useState(false);
+  const [id2, setId2] = useState(false);
+  const handleEditClick = (id) => {
+    setShowEdit(!showEdit); 
+    setId2(id);
+    console.log(id2)
+  };
 
   return (
     <Card>
@@ -116,9 +122,9 @@ export const ProductsTable = (props) => {
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(product._id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(product._id);
                           }
                         }}
                       />
@@ -164,13 +170,14 @@ export const ProductsTable = (props) => {
                     <IconButton aria-label="delete" color="secondary" onClick={() => handleDelete(product._id)}>
                     <DeleteIcon />
                     </IconButton>
-                    <IconButton aria-label="delete" color="primary" onClick={handleEditClick}>
+                    <IconButton aria-label="delete" color="primary" onClick={() => handleEditClick(product._id)}>
                     <ModeEditIcon/>
                     </IconButton>
-                    <Edit></Edit>
+                   
                     </TableCell>
                   
                   </TableRow>
+                  
                 );
               })}
         </TableBody>
@@ -186,7 +193,12 @@ export const ProductsTable = (props) => {
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
       />
+       {showEdit && 
+        <Edit id2 = {id2}/>
+      } 
     </Card>
+
+    
   );
 };
 

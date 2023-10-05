@@ -62,7 +62,20 @@ export const modifyProduct = async (req, res) => {
     try {
         const id = req.params.id
         const dataToModify = req.body
+        console.log(req.files)
+        if (req.files?.image) {
+            const result = await uploadImage(req.files.image.tempFilePath);
+
+            dataToModify.images = {
+                public_id: result.public_id,
+                secure_url: result.secure_url
+            };
+
+            // Elimina el archivo temporal después de cargarlo
+            await fs.unlink(req.files.image.tempFilePath);
+        }
         const previusData = await product.findByIdAndUpdate(id, dataToModify)
+        
         return res.status(200).json({
             "status": true,
             "previusData": previusData

@@ -8,7 +8,10 @@ router.post('/',fileUpload({
     useTempFiles: true,
     tempFileDir: "./uploads",
 }), saveProduct)
-router.put('/:id', modifyProduct)
+router.put('/:id', fileUpload({
+    useTempFiles: true,
+    tempFileDir: "./uploads",
+}), modifyProduct)
 router.delete('/:id', deleteProduct)
 router.get('/:id', findProductById)
 
