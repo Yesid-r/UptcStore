@@ -38,6 +38,8 @@ export const saveUser = async (req, res) => {
     }
 }
 
+
+
 export const obtainAllUsers = async (req, res) => {
     try {
         const dataUsers = await user.find()
@@ -142,6 +144,50 @@ export const loginUser = async (req, res) => {
         });
     }
 }
+
+export const loginAdminSeller = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const User = await user.findOne({ email: email });
+
+        if (!User) {
+            return res.status(404).json({
+                "status": false,
+                "message": "Usuario no encontrado"
+            });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, User.password);
+
+        if (!passwordMatch) {
+            return res.status(401).json({
+                "status": false,
+                "message": "Contraseña incorrecta"
+            });
+        }
+
+        // Verificar el rol del usuario
+        console.log(User.role)
+        if (User.role !== "admin" && User.role !== "seller") {
+            return res.status(403).json({
+                "status": false,
+                "message": "Acceso no autorizado"
+            });
+        }
+
+        return res.status(200).json({
+            "status": true,
+            "message": "Inicio de sesión exitoso"
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            "status": false,
+            "error": error
+        });
+    }
+}
+
 
 export const sendMailRecoveryPass = async (req, res) => {
     const { email } = req.params
