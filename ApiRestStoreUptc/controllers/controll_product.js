@@ -94,6 +94,7 @@ export const findProductById = async (req, res) => {
     try {
         const id = req.params.id
         const dataProduct = await product.findById(id)
+        
         return res.status(200).json({
             "status": true,
             "dataProduct": dataProduct
@@ -103,6 +104,75 @@ export const findProductById = async (req, res) => {
             "status": false,
             "error": error
         })
+    }
+}
+
+export const realizarCompra = async (req, res) => {
+    try {
+        const items = req.body; 
+
+        
+        for (const item of items) {
+            const product = await Product.findById(item._id);
+
+            if (!product) {
+                return res.status(404).json({ message: 'Producto no encontrado' });
+            }
+
+            if (product.stock < item.quantity) {
+                return res.status(400).json({ message: `No hay suficiente stock para ${product.name}` });
+            }
+        }
+
+        
+        
+
+        
+        for (const item of items) {
+            const product = await product.findById(item._id);
+            product.stock -= item.quantity;
+            await product.save();
+        }
+
+        
+        return res.status(200).json({ message: 'Compra realizada con éxito' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Error interno del servidor' });
+    }
+}
+
+export const findBySubcategory = async (req, res) => {
+    try {
+        const subcategory = req.params.subcategory;
+        const products = await product.find({ subcategory: { $regex: new RegExp(subcategory, 'i') } });
+        return res.status(200).json({ products });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Error interno del servidor' });
+    }
+}
+export const validateStock = async (req, res) => {
+    try {
+        const items = req.body; 
+
+        
+        for (const item of items) {
+            const product = await product.findById(item._id);
+
+            if (!product) {
+                return res.status(404).json({success:false, message: 'Producto no encontrado' });
+            }
+
+            if (product.stock < item.quantity) {
+                return res.status(400).json({success:false, message: `No hay suficiente stock para ${product.name}` });
+            }
+        }
+
+        return res.status(200).json({ success: true,message: 'Compra realizada con éxito' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({success:false, message: 'Error interno del servidor' });
     }
 }
 

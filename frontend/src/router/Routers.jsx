@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from '../components/pages/Home'
 import Login from '../components/pages/Login'
@@ -7,7 +7,18 @@ import RegisterProduct from '../components/product/RegisterProduct'
 import ProductDetails from '../components/product/ProductDetails'
 import Success from '../components/cart/Success'
 
+import ProfileUser from '../components/user/ProfileUser'
+import { AuthContext } from '../context/AuthContext'
+import CartShop from '../components/cart/CartShop'
+import ProductList from '../components/product/ProductsList'
+
 const Routers = () => {
+
+  const { user } = useContext(AuthContext);
+  const renderNewTaskRoute = () => {
+    return user ? <Route path="/setting/:id" element={<ProfileUser />} /> : null;
+  };
+
   return (
     <Routes>
         <Route path="/" element={<Home />} />
@@ -16,6 +27,12 @@ const Routers = () => {
         <Route path='/register-product' element={<RegisterProduct/>}/>
         <Route path='/product/:id' element={<ProductDetails/>}/>
         <Route path='/success' element={<Success/>} /> 
+        <Route path='/cartshop'element={<CartShop/>} />
+        <Route path='/productdetail/:id'element={<ProductDetails/>} />
+        <Route path= 'search-category/:subcategory' element={<ProductList/>} />
+
+        
+        {renderNewTaskRoute()}
         <Route path="*" element={<h1>Not Found</h1>} />
     </Routes>
   )

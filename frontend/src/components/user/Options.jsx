@@ -25,7 +25,7 @@ const Options = () => {
     };
 
     const handleSetting = () => {
-        navigate('/setting');
+        navigate(`/setting/${user._id}`);
         closeMenu();
     };
 

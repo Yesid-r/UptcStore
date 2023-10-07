@@ -8,6 +8,9 @@ import { navigation } from '../utils/constants'
 import { AuthContext } from '../context/AuthContext'
 import MenuUser from './user/MenuUser'
 import Cookies from 'js-cookie'
+import { useCart } from '../context/cart'
+
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -15,6 +18,12 @@ function classNames(...classes) {
 
 
 export default function Example() {
+    const [isCartOpen, setIsCartOpen] = useState(false);
+
+    const toggleCart = () => {
+      setIsCartOpen(!isCartOpen);
+    };
+
     const [open, setOpen] = useState(false)
     const { user, dispatch } = useContext(AuthContext)
     user ? console.log(user) : console.log('no user')
@@ -24,6 +33,7 @@ export default function Example() {
         dispatch({ type: 'LOGOUT' });
         navigate('/');
     }
+    const { cart } = useCart();
     return (
         <div className="bg-white">
             {/* Mobile menu */}
@@ -139,7 +149,7 @@ export default function Example() {
                                 {
                                     user ? <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                                         <div className="flow-root">
-                                            <a href="/settings" className="-m-2 block p-2 font-medium text-gray-900">
+                                            <a href={`/setting/${user._id}`}className="-m-2 block p-2 font-medium text-gray-900">
                                                 Ajustes
                                             </a>
                                         </div>
@@ -187,6 +197,7 @@ export default function Example() {
                     </div>
                 </Dialog>
             </Transition.Root>
+
 
             <header className="relative bg-white">
                 <p className="flex h-10 items-center justify-center bg-slate-900 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
@@ -355,12 +366,12 @@ export default function Example() {
 
                                 {/* Cart */}
                                 <div className="ml-4 flow-root lg:ml-6">
-                                    <a href="#" className="group -m-2 flex items-center p-2">
+                                    <a href='/cartshop'  className="group -m-2 flex items-center p-2">
                                         <ShoppingBagIcon
                                             className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                             aria-hidden="true"
                                         />
-                                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cart.items.length}</span>
                                         <span className="sr-only">items in cart, view bag</span>
                                     </a>
                                 </div>
@@ -369,6 +380,7 @@ export default function Example() {
                     </div>
                 </nav>
             </header>
+            
         </div>
     )
 }

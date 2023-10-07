@@ -1,5 +1,5 @@
 import express from 'express'
-import {obtainAllUsers, saveUser, findUserById, deleteUser, loginUser, updatePassword, sendMailRecoveryPass} from '../controllers/controll_user.js'
+import {obtainAllUsers, saveUser, findUserById, deleteUser, loginUser, updatePassword, sendMailRecoveryPass, updateUser} from '../controllers/controll_user.js'
 const router = express.Router()
 
 
@@ -11,5 +11,6 @@ router.delete('/:id', deleteUser)
 router.post('/login', loginUser)  
 router.post('/updatePassword', updatePassword)  
 router.post('/sendEmail/:email', sendMailRecoveryPass)
+router.put('/:id', updateUser)
 
 export default router

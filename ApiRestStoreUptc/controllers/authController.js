@@ -1,13 +1,14 @@
 import user from "../models/user.js";
 import bcrypt from "bcrypt";
-import e from "express";
+
 import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        const useremail = user.findOne({ email: req.body.email });
+        const useremail =  await user.findOne({ email: req.body.email });
+        console.log(`useremail: ${useremail}`)
         if (useremail) {
             return res.status(400).json({ success: false, message: "User already exists" });
         }
