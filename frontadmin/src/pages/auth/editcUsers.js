@@ -14,7 +14,9 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Head from 'next/head';
 
 
-const Page = () => {
+const Edit = ({id2}) => {
+  
+  console.log("edti: "+ id2)
   const [filea, setFilea] = React.useState('');
   const handleFileChange = (event) => {
     setFilea(event.target.files[0]);
@@ -137,8 +139,8 @@ const Page = () => {
       formData.append('subcategory', values.subcategory);
       
       try {
-        const response = await fetch('http://localhost:3001/products/', {
-          method: 'POST',
+        const response = await fetch(`http://localhost:3001/products/${id2}`, {
+          method: 'PUT',
           body: formData // Usa el objeto FormData en lugar de JSON.stringify
         });
     
@@ -179,14 +181,25 @@ const Page = () => {
     width: 1,
   });
   
+  const [isBoxVisible, setIsBoxVisible] = useState(true);
 
+  const handleCloseBox = () => {
+    setIsBoxVisible(false);
+  };
   return (
     <>
-      <Head>
-        <title>
-          Register | Devias Kit
-        </title>
-      </Head>
+     {isBoxVisible && (
+      <Box sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '45%',
+        transform: 'translate(-20%, -30%)',
+        width: 800,
+        bgcolor: 'background.paper',
+        boxShadow: 24,
+        p: 4,
+      }}>
+     
       <Box
         sx={{
           flex: '1 1 auto',
@@ -195,6 +208,18 @@ const Page = () => {
           justifyContent: 'center'
         }}
       >
+        <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleCloseBox}
+            sx={{
+              position: 'absolute',
+              top: '28px',
+              right: '658px',
+            }}
+          >
+            Cerrar
+          </Button>
         <Box
           sx={{
             maxWidth: 550,
@@ -209,7 +234,7 @@ const Page = () => {
               sx={{ mb: 3 }}
             >
               <Typography variant="h4">
-                Guardar Producto
+                Editar Producto
               </Typography>
            
            
@@ -365,14 +390,17 @@ const Page = () => {
           </div>
         </Box>
       </Box>
+      </Box>            
+      )}
     </>
+   
   );
 };
 
-Page.getLayout = (page) => (
+Edit.getLayout = (edit) => (
   <AuthLayout>
-    {page}
+    {edit}
   </AuthLayout>
 );
 
-export default Page;
+export default Edit;

@@ -29,7 +29,7 @@ export const items = [
     )
   },
   {
-    title: 'Companies',
+    title: 'Usuarios',
     path: '/companies',
     icon: (
       <SvgIcon fontSize="small">
@@ -47,25 +47,7 @@ export const items = [
     )
   },
   {
-    title: 'Settings',
-    path: '/settings',
-    icon: (
-      <SvgIcon fontSize="small">
-        <CogIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Login',
-    path: '/auth/login',
-    icon: (
-      <SvgIcon fontSize="small">
-        <LockClosedIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Register',
+    title: 'Register Users',
     path: '/auth/register',
     icon: (
       <SvgIcon fontSize="small">
@@ -73,13 +55,4 @@ export const items = [
       </SvgIcon>
     )
   },
-  {
-    title: 'Error',
-    path: '/404',
-    icon: (
-      <SvgIcon fontSize="small">
-        <XCircleIcon />
-      </SvgIcon>
-    )
-  }
 ];

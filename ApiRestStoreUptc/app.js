@@ -5,7 +5,10 @@ import mongoose from 'mongoose'
 import morgan from "morgan";
 const app = express()
 
+<<<<<<< HEAD
 import fileUpload from 'express-fileupload'
+=======
+>>>>>>> 62a87ce6bc0a7ed91158bbfdb4888441b921287c
 import authRouter from './routes/auth.js'
 import userRouter from './routes/user.js'
 import categoryRouter from './routes/category.js'
@@ -46,10 +49,7 @@ app.listen(app.get('PORT'), ()=>{
 })
 
 
-app.use(fileUpload({
-    useTempFiles : true,
-    tempFileDir : './galery'
-}));
+
 // app.use('/auth', require('./routes/auth'))
 // app.use('/products', require('./routes/product'))
 app.use('/users', userRouter)

@@ -42,9 +42,40 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signIn(values.email, values.password);
-        router.push('/');
+        const response = await fetch('http://localhost:3001/users/login2', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+          }),
+        });
+    
+        if (response.ok) {
+          
+          const userData = await response.json(); // Obtiene los datos del usuario
+          const { name, email } = userData; // Extrae el nombre y el email del objeto
+          // Guarda los datos en tu aplicación como sea necesario
+          console.log(`Nombre del usuario: ${name}`);
+          console.log(`Email del usuario: ${email}`);
+          
+          auth.skip();
+          router.push('/');
+        
+          // También puedes usar los datos en otras partes de tu aplicación si es necesario
+         
+        } else {
+          // Si la respuesta del servidor no es exitosa, maneja el error
+          const errorData = await response.json();
+          helpers.setStatus({ success: false });
+          helpers.setErrors({ submit: errorData.message });
+          helpers.setSubmitting(false);
+        }
       } catch (err) {
+        // Si hay un error en la solicitud, maneja el error
+        console.error('Error en la solicitud POST:', err);
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
         helpers.setSubmitting(false);
@@ -103,15 +134,13 @@ const Page = () => {
                 color="text.secondary"
                 variant="body2"
               >
-                Don&apos;t have an account?
+                Solo podras acceder con la cuaneta de 
                 &nbsp;
                 <Link
-                  component={NextLink}
-                  href="/auth/register"
                   underline="hover"
                   variant="subtitle2"
                 >
-                  Register
+                  Administrador o vendedor
                 </Link>
               </Typography>
             </Stack>
@@ -179,23 +208,8 @@ const Page = () => {
                 >
                   Continue
                 </Button>
-                <Button
-                  fullWidth
-                  size="large"
-                  sx={{ mt: 3 }}
-                  onClick={handleSkip}
-                >
-                  Skip authentication
-                </Button>
-                <Alert
-                  color="primary"
-                  severity="info"
-                  sx={{ mt: 3 }}
-                >
-                  <div>
-                    You can use <b>demo@devias.io</b> and password <b>Password123!</b>
-                  </div>
-                </Alert>
+              
+               
               </form>
             )}
             {method === 'phoneNumber' && (
