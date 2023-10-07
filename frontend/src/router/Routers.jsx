@@ -11,6 +11,7 @@ import ProfileUser from '../components/user/ProfileUser'
 import { AuthContext } from '../context/AuthContext'
 import CartShop from '../components/cart/CartShop'
 import ProductList from '../components/product/ProductsList'
+import Failure from '../components/cart/Failure'
 
 const Routers = () => {
 
@@ -30,6 +31,7 @@ const Routers = () => {
         <Route path='/cartshop'element={<CartShop/>} />
         <Route path='/productdetail/:id'element={<ProductDetails/>} />
         <Route path= 'search-category/:subcategory' element={<ProductList/>} />
+        <Route path= '/failure' element={<Failure/>} />
 
         
         {renderNewTaskRoute()}

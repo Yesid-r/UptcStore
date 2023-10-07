@@ -2,61 +2,57 @@ import Category from '../models/Category.js'
 import product from '../models/product.js'
 import { uploadImage, deleteImage } from '../utils/cloudinary.js'
 import fs from 'fs-extra'
+
 export const obtainAll = async (req, res) => {
     try {
-        const dataProducts = await product.find()
-        return res.status(200).json({
-            "status": true,
-            "dataProducts": dataProducts
-        })
+        const products = await product.find();
+        return res.status(200).json({ products });
     } catch (error) {
-        return res.status(500).json({
-            "status": false,
-            "error": error
-        })
+        console.error(error);
+        return res.status(500).json({ message: 'Error interno del servidor' });
     }
 }
 
 export const saveProduct = async (req, res) => {
     const idCategoria = req.body.category;
-     console.log(req.body)
-    try {
-        console.log(`category to search: ${idCategoria}`);
-        const category = await Category.findById(idCategoria);
+    console.log(req.body)
+   try {
+       console.log(`category to search: ${idCategoria}`);
+       const category = await Category.findById(idCategoria);
 
-        if (category == null) {
-            return res.status(404).json({
-                "status": false,
-                "message": "Category not found"
-            });
-        }
+       if (category == null) {
+           return res.status(404).json({
+               "status": false,
+               "message": "Category not found"
+           });
+       }
 
-        const newProduct = new product(req.body);
-        console.log(req.files)
-        if (req.files?.image) {
-            const result = await uploadImage(req.files.image.tempFilePath);
+       const newProduct = new product(req.body);
+       console.log(req.files)
+       if (req.files?.image) {
+           const result = await uploadImage(req.files.image.tempFilePath);
 
-            newProduct.images = {
-                public_id: result.public_id,
-                secure_url: result.secure_url
-            };
+           newProduct.images = {
+               public_id: result.public_id,
+               secure_url: result.secure_url
+           };
 
-            // Elimina el archivo temporal después de cargarlo
-            await fs.unlink(req.files.image.tempFilePath);
-        }
+           // Elimina el archivo temporal después de cargarlo
+           await fs.unlink(req.files.image.tempFilePath);
+       }
 
-        const dataProductSave = await newProduct.save();
+       const dataProductSave = await newProduct.save();
 
-        return res.status(200).json({
-            "status": true,
-            "dataProduct": dataProductSave
-        });
-    } catch (error) {
-        return res.status(500).json({
-            "status": false,
-            "error": error.message
-        });
-    }
+       return res.status(200).json({
+           "status": true,
+           "dataProduct": dataProductSave
+       });
+   } catch (error) {
+       return res.status(500).json({
+           "status": false,
+           "error": error.message
+       });
+   }
 };
 export const modifyProduct = async (req, res) => {
     try {
@@ -86,7 +82,7 @@ export const modifyProduct = async (req, res) => {
             "error": error
         })
     }
-    
+   
 }
 export const deleteProduct = async (req, res) => {
     try {
@@ -104,7 +100,6 @@ export const deleteProduct = async (req, res) => {
             "error": error
         })
     }
-   
 }
 
 export const findProductById = async (req, res) => {

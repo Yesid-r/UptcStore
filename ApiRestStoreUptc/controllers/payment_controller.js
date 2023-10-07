@@ -1,5 +1,6 @@
 import mercadopage from "mercadopago";
 import { MERCADOPAGO_API_KEY } from "../config.js";
+import { FRONT_URL } from "../utils/constants.js";
 
 export const createOrder = async (req, res) => {
   console.log('body')
@@ -17,9 +18,9 @@ export const createOrder = async (req, res) => {
       items: itemsToOrder,
       notification_url: "https://bb67-190-90-15-17.ngrok.io/webhook",
       back_urls: {
-        success: "http://localhost:5173/success",
+        success: `${FRONT_URL}/success`,
         // pending: "https://e720-190-237-16-208.sa.ngrok.io/pending",
-        // failure: "https://e720-190-237-16-208.sa.ngrok.io/failure",
+        failure: `${FRONT_URL}/failure`,
       },
     });
 

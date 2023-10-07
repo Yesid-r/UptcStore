@@ -97,7 +97,7 @@ const Login = () => {
 
                                 <div className="mt-6">
                                     <button
-                                        className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                                        className="w-full  items-center justify-center   px-8 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500 flex"
                                         type="submit"
                                     >
                                         Sign in

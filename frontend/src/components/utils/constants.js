@@ -1,5 +1,5 @@
 export const API_URL = "http://localhost:4000"
-export const API_PAYMENT = "http://localhost:3000"
+export const API_PAYMENT = "http://localhost:4000"
 export async function fetchDataFromAPI() {
     const response = await fetch("http://localhost:4000/products");
     

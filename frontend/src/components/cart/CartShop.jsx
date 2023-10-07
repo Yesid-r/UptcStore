@@ -116,7 +116,7 @@ const CartShop = () => {
 
     return (
         <body>
-            <div className="h-screen bg-gray-100 pt-20">
+            <div className="py-3 bg-gray-100 pt-20">
                 <h1 className="mb-10 text-center text-2xl font-bold">Lista de compras</h1>
                 {cart.items.length === 0 ? (
                     <h1 className="text-center text-2xl font-bold">No hay productos en el carrito</h1>

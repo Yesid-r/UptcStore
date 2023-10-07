@@ -24,16 +24,19 @@ const ProductList = () => {
             try {
                 setLoading(true)
                 if (subcategory) {
-                    const response = await fetch(`${API_URL}/products/subcategory/${subcategory}`)
+                    const response = await fetch(`${API_URL}/products/category/${subcategory}`)
+                    console.log(`${API_URL}/products/category/${subcategory}`)
+
+                    console.log(response)
                     const data = await response.json()
                     setLoading(false)
-                    setProducts(data.dataProducts)
+                    setProducts(data.products)
                     return
                 } else {
                     const response = await fetch(`${API_URL}/products`)
                     const data = await response.json()
                     setLoading(false)
-                    setProducts(data.dataProducts)
+                    setProducts(data.products)
                     return
                 }
 
