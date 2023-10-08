@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { API_URL } from '../utils/constants';
 import { useCart } from '../../context/cart';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const ProductDetails = () => {
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
@@ -19,7 +20,7 @@ const ProductDetails = () => {
                 }
                 const data = await response.json();
                 setProduct(data.dataProduct);
-                
+
                 setLoading(false);
             } catch (error) {
                 setError(error);
@@ -29,7 +30,7 @@ const ProductDetails = () => {
 
         fetchProduct();
     }, [id]);
-    
+
 
 
     if (loading) {
@@ -38,7 +39,7 @@ const ProductDetails = () => {
 
     if (error) {
         return <div>Error: {error.message}</div>;
-        
+
     }
 
     const { addToCart, cart } = useCart();
@@ -46,22 +47,36 @@ const ProductDetails = () => {
 
         const itemstock = cart.items.findIndex(
             (item) => item._id === product._id
-          )
-          console.log(itemstock)
-
+        )
+        console.log(itemstock)
+        const productExist = cart.items.find((item) => item._id === product._id);
+        console.log(productExist)
+        if (productExist && productExist.quantity === productExist.stock) {
+            toast.info('No es posible agregar al carrito en este momento, ya que no hay más unidades disponibles de este producto en stock.', {
+                position: toast.POSITION.TOP_RIGHT
+            });
+            
+            return
+        }
 
         addToCart({
-          _id: product._id,
-          name: product.name,
-          description: product.description,
-          price: product.price,
-          image: product.images.secure_url,
-          quantity: 1, 
-      });
+            _id: product._id,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            image: product.images.secure_url,
+            stock: product.stock,
+            quantity: 1,
+        });
+        toast.success('Producto agregado correctamente al carrito!', {
+            position: toast.POSITION.TOP_RIGHT
+        });
+        
 
     }
     return (
         <div className="container mt-3 mx-auto px-6">
+            <ToastContainer />
             <div className="md:flex md:items-center">
                 <div className="w-full h-64 md:w-1/2 lg:h-96">
                     <img
@@ -100,10 +115,10 @@ const ProductDetails = () => {
                     </div>
                     <div className="flex items-center mt-6">
                         <button className="px-8 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500 flex items-center"
-                        onClick={() => handleAddToCart(product)}
+                            onClick={() => handleAddToCart(product)}
                         >
                             <svg
-                                className="h-5 w-5 mr-1" 
+                                className="h-5 w-5 mr-1"
                                 fill="none"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"

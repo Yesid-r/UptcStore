@@ -65,5 +65,6 @@ export const receiveWebhook = async (req, res) => {
 export const success = async (req, res) => {
   //console.log('success')
   //console.log(req.query)
+  
   res.json({ message: "success" });
 }
