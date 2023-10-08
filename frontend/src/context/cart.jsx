@@ -18,7 +18,7 @@ const cartReducer = (state, action) => {
         (item) => item._id === action.payload._id
       );
 
-      if (existingItemIndex !== -1) {
+      if (existingItemIndex !== -1 ) {
 
         const updatedItems = [...state.items];
         updatedItems[existingItemIndex].quantity += action.payload.quantity;
