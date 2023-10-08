@@ -1,12 +1,14 @@
 import React, { useContext } from 'react'
 import { useCart } from '../../context/cart';
-
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProductCard = (props) => {
 
   const { addToCart } = useCart();
 
   const { _id, name, price, images } = props.data;
+
 
   const handleAddToCart = (product) => {
     addToCart({
