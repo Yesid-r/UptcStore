@@ -12,7 +12,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Head from 'next/head';
-
+import dotenv from 'dotenv'
+import {API_URL} from '../../utils/constants'
 
 const Edit = ({id2}) => {
   
@@ -139,7 +140,7 @@ const Edit = ({id2}) => {
       formData.append('subcategory', values.subcategory);
       
       try {
-        const response = await fetch(`http://localhost:3001/products/${id2}`, {
+        const response = await fetch(`${API_URL}/products/${id2}`, {
           method: 'PUT',
           body: formData // Usa el objeto FormData en lugar de JSON.stringify
         });

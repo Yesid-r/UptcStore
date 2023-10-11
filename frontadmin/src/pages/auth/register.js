@@ -11,6 +11,8 @@ import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React, { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
+import {API_URL} from '../../utils/constants'
+
 
 const Page = () => {
 
@@ -76,7 +78,7 @@ const Page = () => {
       
 
       try {
-        const response = await fetch('http://localhost:3001/users', {
+        const response = await fetch(`${API_URL}/users`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

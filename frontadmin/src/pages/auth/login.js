@@ -18,6 +18,8 @@ import {
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+import {API_URL} from '../../utils/constants'
+
 
 const Page = () => {
   const router = useRouter();
@@ -41,8 +43,9 @@ const Page = () => {
         .required('Password is required')
     }),
     onSubmit: async (values, helpers) => {
+      console.log(`${API_URL}/users/login2/`)
       try {
-        const response = await fetch('http://localhost:3001/users/login2', {
+        const response = await fetch(`${API_URL}/users/login2/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

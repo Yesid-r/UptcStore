@@ -29,6 +29,16 @@ export const items = [
     )
   },
   {
+    title: 'Galeria',
+    path: '/Galeria',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ShoppingBagIcon />
+        
+      </SvgIcon>
+    )
+  },
+  {
     title: 'Usuarios',
     path: '/companies',
     icon: (

@@ -23,6 +23,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Edit from '../../pages/auth/editc'
+import {API_URL} from '../../utils/constants'
 
 export const ProductsTable = (props) => {
 
@@ -46,10 +47,10 @@ export const ProductsTable = (props) => {
       const fetchProducts = async () => {
           try {
               setLoading(true)
-              const response = await fetch(`http://localhost:3001/products`)
+              const response = await fetch(`${API_URL}/products`)
               const data = await response.json()
               setLoading(false)
-              setProducts(data.dataProducts)
+              setProducts(data.products)
           } catch (error) {
               setLoading(false)
               setError(error.message)
@@ -60,7 +61,7 @@ export const ProductsTable = (props) => {
 
   const handleDelete = (id) => {
     // Realizar la solicitud HTTP para eliminar un producto por su ID
-    fetch(`http://localhost:3001/products/${id}`, {
+    fetch(`${API_URL}/products/${id}`, {
       method: 'DELETE',
     })
       .then(() => {
@@ -107,7 +108,7 @@ export const ProductsTable = (props) => {
               </TableRow>
             </TableHead>
           <TableBody>
-          {products.map((product) => {
+          { products && products.map((product) => {
                 const isSelected = selected.includes(product._id);
                 
 
@@ -138,7 +139,7 @@ export const ProductsTable = (props) => {
                       >
                           <ListItemAvatar>
                         {
-                          product.images.secure_url ? (
+                          product.images ? (
                               <Box
                                 component="img"
                                 src={product.images.secure_url}
@@ -150,7 +151,7 @@ export const ProductsTable = (props) => {
                               ></Box>
                             )
                             : (
-                              <Avatar src={product.images[0]}>
+                              <Avatar src={product.images}>
                                 {getInitials(product.name)}
                               </Avatar>
                             )

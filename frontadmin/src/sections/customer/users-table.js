@@ -23,7 +23,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Edit from '../../pages/auth/editc'
-
+import {API_URL} from '../../utils/constants'
 export const UsersTable = (props) => {
 
   const {
@@ -46,7 +46,7 @@ export const UsersTable = (props) => {
       const fetchProducts = async () => {
           try {
               setLoading(true)
-              const response = await fetch(`http://localhost:3001/users/`)
+              const response = await fetch(`${API_URL}/users/`)
               const data = await response.json()
               setLoading(false)
               setProducts(data.dataUsers)
@@ -60,7 +60,7 @@ export const UsersTable = (props) => {
 
   const handleDelete = (id) => {
     // Realizar la solicitud HTTP para eliminar un producto por su ID
-    fetch(`http://localhost:3001/users/${id}`, {
+    fetch(`${API_URL}/users/${id}`, {
       method: 'DELETE',
     })
       .then(() => {

@@ -1,3 +1,5 @@
+API_URL = "https://uptc-store.vercel.app"
+
 [*]
 charset = utf-8
 end_of_line = lf

@@ -12,19 +12,28 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Head from 'next/head';
+import {API_URL} from '../../utils/constants'
+import { useForm } from "react-hook-form";
 
 
 const Page = () => {
   const [filea, setFilea] = React.useState('');
+
+  
   const handleFileChange = (event) => {
-    setFilea(event.target.files[0]);
-    if (filea) {
-      
-      console.log("Archivo seleccionado:", filea.name);
-     
+    const selectedFiles = event.target.files;
+    
+    if (selectedFiles.length > 0) {
+      // Aquí puedes acceder a la lista de archivos seleccionados
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        console.log(`Archivo seleccionado ${i + 1}: ${file.name}`);
+        
+        // Haz lo que necesites con cada archivo, como almacenarlos en un array o enviarlos a través de una solicitud.
+      }
     }
   };
-  
+
   const router = useRouter();
   const auth = useAuth();
   const [estado, setEstado] = React.useState('');
@@ -44,6 +53,55 @@ const Page = () => {
     console.log("hola . " + event.target.value)
   };
   
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  async function createGallery(dataForm) {
+    const images = [];
+    setResponseError("");
+    setLoading(true);
+    if (dataForm.images[0]) {
+      for (let index = 0; index < dataForm.images.length; index++) {
+        const image = new FormData();
+        image.append("file", dataForm.images[index]);
+        image.append("upload_preset", "kindergarden");
+        const responseCloud = await fetch(
+          "https://api.cloudinary.com/v1_1/ddsuzqzgh/image/upload",
+          {
+            method: "POST",
+            body: image,
+          }
+        );
+        const imageUrl = await responseCloud.json();
+        if (imageUrl.error) {
+          setLoading(false);
+          setResponseError(imageUrl.error.message);
+          return;
+        }
+        images.push(imageUrl.secure_url);
+      }
+      dataForm.images = images;
+      const response = await fetch("http://localhost:4000/api/gallery", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(dataForm),
+      });
+      const data = await response.json();
+
+      if (data.message === "Gallery created") {
+        navigate("/admin/ver-galerias");
+      } else {
+        setLoading(false);
+        setResponseError(data.message);
+      }
+    }
+  }
+
   const categorias = [
     { id: "651a01d23f0e950ef7991a19", nombre: "Libreria" },
     { id: "651a022c3f0e950ef7991a1b", nombre: "Papeleria" },
@@ -87,7 +145,7 @@ const Page = () => {
       name: '', 
       description: '', 
       price: 0, 
-      images: filea,
+      images: [],
       stock: 0, 
       availability: estado, 
       category: '', 
@@ -137,7 +195,7 @@ const Page = () => {
       formData.append('subcategory', values.subcategory);
       
       try {
-        const response = await fetch('http://localhost:3001/products/', {
+        const response = await fetch(`${API_URL}/products/`, {
           method: 'POST',
           body: formData // Usa el objeto FormData en lugar de JSON.stringify
         });
@@ -339,8 +397,8 @@ const Page = () => {
                 </FormControl>
 
                 <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                Upload file
-                <VisuallyHiddenInput type="file" onChange={handleFileChange}/>
+                  Agregar Portada
+                <VisuallyHiddenInput  type="file" multiple style={{ display: 'none' }}  onChange={handleFileChange}/>
               </Button>
               </Stack>
               {formik.errors.submit && (
