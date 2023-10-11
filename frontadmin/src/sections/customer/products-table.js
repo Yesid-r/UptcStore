@@ -130,7 +130,7 @@ export const ProductsTable = (props) => {
                         }}
                       />
                     </TableCell>
-                    <TableCell>{product._id}</TableCell>
+                    <TableCell>{product._id.slice(0, 8)}</TableCell>
                     <TableCell>
                       <Stack
                         alignItems="center"

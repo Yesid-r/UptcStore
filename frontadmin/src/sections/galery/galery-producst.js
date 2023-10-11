@@ -18,6 +18,8 @@ import {
   SvgIcon
 } from '@mui/material';
 import { DropzoneArea } from "mui-file-dropzone";
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import { GaleryList } from './galery-list';
 
 export const GaleryProducts = (props) => {
  
@@ -32,10 +34,7 @@ export const GaleryProducts = (props) => {
    }
  
    // Función para guardar los archivos y cerrar el modal
-   const handleSave = (newFiles) => {
-     setFiles(newFiles);
-     setOpen(false);
-   }
+ 
  
    // Función para abrir el modal
    const handleOpen = () => {
@@ -43,12 +42,27 @@ export const GaleryProducts = (props) => {
    }
   return (
     <Card sx={sx}>
-     
+      
+      <GaleryList></GaleryList>
+
      <DropzoneArea filesLimit={4}  acceptedFiles={['image/*']}
        dropzoneText={"Agrega nuevas imagenes al producto"}
         onChange={(files) => console.log('Files:', files)}
         
       />
+      
+      <div style={{ float: 'right', padding: '10px' }}>
+        <Button
+          startIcon={(
+            <SvgIcon fontSize="small">
+              <FileUploadIcon />
+            </SvgIcon>
+          )}
+          variant="outlined"
+        >
+          subir
+        </Button>
+      </div>
 
       
     </Card>
