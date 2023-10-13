@@ -4,10 +4,7 @@ import {obtainAll, saveProduct, modifyProduct, deleteProduct, findProductById, r
 import fileUpload from 'express-fileupload';
 
 router.get('/', obtainAll)
-router.post('/',fileUpload({
-    useTempFiles: true,
-    tempFileDir: "./uploads",
-}), saveProduct)
+router.post('/',saveProduct)
 router.put('/:id', fileUpload({
     useTempFiles: true,
     tempFileDir: "./uploads",

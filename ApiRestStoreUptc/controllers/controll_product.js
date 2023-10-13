@@ -14,46 +14,32 @@ export const obtainAll = async (req, res) => {
 }
 
 export const saveProduct = async (req, res) => {
-    const idCategoria = req.body.category;
+    const idCategoria = req.body.category
     console.log(req.body)
-   try {
-       console.log(`category to search: ${idCategoria}`);
-       const category = await Category.findById(idCategoria);
+    try {
+        console.log(`category to search: ${idCategoria}`)
+        const category = await Category.findById(idCategoria)
+        console.log(category)
+        if (category == null) {
+            return res.status(404).json({
+                "status": false,
+                "message": "Category not found"
+            })
+        }
+        const productJSON = new product(req.body)
+        const dataProductSave = await productJSON.save()
+        return res.status(200).json({
+            "status:": true,
+            "dataProduct": dataProductSave,
+        })
+    } catch (error) {
+        return res.status(200).json({
+            "status": false,
+            "error": error
+        })
+    }
+}
 
-       if (category == null) {
-           return res.status(404).json({
-               "status": false,
-               "message": "Category not found"
-           });
-       }
-
-       const newProduct = new product(req.body);
-       console.log(req.files)
-       if (req.files?.image) {
-           const result = await uploadImage(req.files.image.tempFilePath);
-
-           newProduct.images = {
-               public_id: result.public_id,
-               secure_url: result.secure_url
-           };
-
-           // Elimina el archivo temporal después de cargarlo
-           await fs.unlink(req.files.image.tempFilePath);
-       }
-
-       const dataProductSave = await newProduct.save();
-
-       return res.status(200).json({
-           "status": true,
-           "dataProduct": dataProductSave
-       });
-   } catch (error) {
-       return res.status(500).json({
-           "status": false,
-           "error": error.message
-       });
-   }
-};
 export const modifyProduct = async (req, res) => {
     try {
         const id = req.params.id
@@ -125,7 +111,7 @@ export const realizarCompra = async (req, res) => {
 
         
         for (const item of items) {
-            const product = await Product.findById(item._id);
+            const product = await product.findById(item._id);
 
             if (!product) {
                 return res.status(404).json({ message: 'Producto no encontrado' });

@@ -1,12 +1,10 @@
 import express from 'express'
 const router = express.Router()
 
-import  {findCategoryById, addProductToCategory, deleteCategory} from '../controllers/controll_category.js'
+import { saveGalery } from '../controllers/controll_galery.js'
 
+router.post('/',saveGalery)
 
-router.get('/:id', findCategoryById)
-router.put('/:id', addProductToCategory)
-router.delete('/:id', deleteCategory)
 
 
 export default router

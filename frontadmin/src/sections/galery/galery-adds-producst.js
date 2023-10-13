@@ -4,7 +4,6 @@ import ArrowRightIcon from '@heroicons/react/24/solid/ArrowRightIcon';
 import React, { useEffect, useState } from 'react';
 import EllipsisVerticalIcon from '@heroicons/react/24/solid/EllipsisVerticalIcon';
 import {
-  Box,
   Button,
   Card,
   CardActions,
@@ -18,6 +17,8 @@ import {
   SvgIcon
 } from '@mui/material';
 import {API_URL} from '../../utils/constants'
+import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material';
+import { GaleryProducts } from 'src/sections/galery/galery-producst';
 
 export const GaleryAddsProducts = (props) => {
   const [products, setProducts] = useState([])
@@ -44,6 +45,16 @@ export const GaleryAddsProducts = (props) => {
 
   return (
     <Card sx={sx}>
+    <Grid
+    container
+    spacing={3}
+    >
+         <Grid
+            xs={12}
+            md={6}
+            lg={4}
+          >
+   
       <CardHeader title="Latest Products" />
       <List>
         {products.map((product, index) => {
@@ -52,6 +63,7 @@ export const GaleryAddsProducts = (props) => {
           const ago = formatDistanceToNow(updatedAt);
           
           return (
+            <Button>
             <ListItem
               divider={hasDivider}
               key={product._id}
@@ -88,12 +100,14 @@ export const GaleryAddsProducts = (props) => {
                 secondary={`Updated ${ago} ago`}
                 secondaryTypographyProps={{ variant: 'body2' }}
               />
-              <IconButton edge="end">
+            
+            </ListItem>
+            <IconButton edge="end">
                 <SvgIcon>
                   <EllipsisVerticalIcon />
                 </SvgIcon>
               </IconButton>
-            </ListItem>
+            </Button>
           );
         })}
       </List>
@@ -112,6 +126,18 @@ export const GaleryAddsProducts = (props) => {
           View all
         </Button>
       </CardActions>
+   
+    </Grid>
+    <Grid
+            xs={12}
+            md={12}
+            lg={8}
+            >
+           <GaleryProducts id={124124} ></GaleryProducts>
+            </Grid>
+
+
+    </Grid>
     </Card>
   );
 };

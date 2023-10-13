@@ -5,13 +5,13 @@ const galerySchema = new mongoose.Schema({
     name:{
         type: String
     },
-    products:[
+    products:
         {
             required:false,
             type: mongoose.Schema.Types.ObjectId,
             ref: 'product'
         }
-    ],
+    ,
     images: [
         {
             secure_url: String,
@@ -23,4 +23,4 @@ const galerySchema = new mongoose.Schema({
     
 }, {timestamps: true})
 
-export default mongoose.model('Galery', galerySchema)
+export default mongoose.model('galery', galerySchema)

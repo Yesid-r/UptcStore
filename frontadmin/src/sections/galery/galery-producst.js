@@ -20,6 +20,8 @@ import {
 import { DropzoneArea } from "mui-file-dropzone";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { GaleryList } from './galery-list';
+import { useForm } from "react-hook-form";
+
 
 export const GaleryProducts = (props) => {
  
@@ -32,10 +34,64 @@ export const GaleryProducts = (props) => {
    const handleClose = () => {
      setOpen(false);
    }
+
+   const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [responseError, setResponseError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+   async function createGallery(dataFiles) {
+    const images = [];
+    setResponseError("");
+    setLoading(true);
+    if (dataFiles) {
+      for (let index = 0; index < dataFiles.length; index++) {
+        const image = new FormData();
+        image.append("file", dataFiles[index]);
+        image.append("upload_preset", "kindergarden");
+        const responseCloud = await fetch(
+          "https://api.cloudinary.com/v1_1/ddsuzqzgh/image/upload",
+          {
+            method: "POST",
+            body: image,
+          }
+        );
+        const imageUrl = await responseCloud.json();
+        if (imageUrl.error) {
+          setLoading(false);
+          setResponseError(imageUrl.error.message);
+          return;
+        }
+        images.push(imageUrl.secure_url);
+      }
+      dataFiles.images = images;
+      const response = await fetch("http://localhost:3001/galery/", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(dataFiles),
+      });
+      const data = await response.json();
+
+      if (data.message === "Gallery created") {
+        
+      } else {
+        setLoading(false);
+        setResponseError(data.message);
+      }
+    }
+  }
  
-   // Función para guardar los archivos y cerrar el modal
+
  
- 
+   const handleDropzoneChange = (files) => {
+    console.log('Files:', files);
+    createGallery(files); // Llama a createGallery y pasa los archivos como argumento
+  };
    // Función para abrir el modal
    const handleOpen = () => {
      setOpen(true);
@@ -47,7 +103,7 @@ export const GaleryProducts = (props) => {
 
      <DropzoneArea filesLimit={4}  acceptedFiles={['image/*']}
        dropzoneText={"Agrega nuevas imagenes al producto"}
-        onChange={(files) => console.log('Files:', files)}
+       onChange={handleDropzoneChange}
         
       />
       
@@ -58,13 +114,15 @@ export const GaleryProducts = (props) => {
               <FileUploadIcon />
             </SvgIcon>
           )}
+          type="submit" 
           variant="outlined"
+         
         >
-          subir
+          CONFIRM
         </Button>
       </div>
 
-      
+     
     </Card>
   );
 };

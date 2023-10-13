@@ -1,20 +1,16 @@
-import product from '../models/product.js'
+import galery from "../models/galery.js";
 
 
 
-export const findGaleryById = async (req, res) => {
+export const saveGalery = async (req, res) => {
+
     try {
-        const id = req.params.id
-        const dataProduct = await product.findById(id)
-        
-        return res.status(200).json({
-            "status": true,
-            "dataProduct": dataProduct
-        })
-    } catch (error) {
-        return res.status(500).json({
-            "status": false,
-            "error": error
-        })
-    }
-}
+        const newGallery = new galery(req.body);
+        await newGallery.save();
+        res.json({ message: "photo added" });
+      } catch (error) {
+        res.json({ message: error });
+      }
+};
+
+

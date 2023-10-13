@@ -150,37 +150,16 @@ const Page = () => {
 
             </Stack>
         </Container>
-            <Container maxWidth="xl">
-            <Grid
-          container
-          spacing={3}
-          >
-            <Grid
-            xs={12}
-            md={6}
-            lg={4}
-          >
-           
+        
+            
             <GaleryAddsProducts
              
               sx={{ height: '100%' }}
             />
-             </Grid>
-            <Grid
-            xs={12}
-            md={12}
-            lg={8}
-            >
-                
-             <GaleryProducts
+       
+        
+
             
-              sx={{ height: '100%' }}
-            />
-
-            </Grid>
-
-            </Grid>    
-            </Container>
           
       
       </Box>
