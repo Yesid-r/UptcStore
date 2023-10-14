@@ -1,27 +1,20 @@
 import { formatDistanceToNow } from 'date-fns';
 import PropTypes from 'prop-types';
-import ArrowRightIcon from '@heroicons/react/24/solid/ArrowRightIcon';
 import React, { useEffect, useState } from 'react';
-import EllipsisVerticalIcon from '@heroicons/react/24/solid/EllipsisVerticalIcon';
 import {
-  Box,
   Button,
   Card,
-  CardActions,
-  CardHeader,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  SvgIcon
+  SvgIcon,
+  Alert,
+  Stack,
+  Box
 } from '@mui/material';
 import { DropzoneArea } from "mui-file-dropzone";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { GaleryList } from './galery-list';
-import { useForm } from "react-hook-form";
-
+import Zoom from '@mui/material/Zoom';
+import LinearProgress from '@mui/material/LinearProgress';
+import { set } from 'nprogress';
 
 export const GaleryProducts = (props) => {
  
@@ -29,73 +22,103 @@ export const GaleryProducts = (props) => {
    // Inicializar el estado utilizando useState
    const [open, setOpen] = useState(false);
    const [files, setFiles] = useState([]);
- 
-   // Función para cerrar el modal
-   const handleClose = () => {
-     setOpen(false);
-   }
 
-   const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const [responseError, setResponseError] = useState("");
-  const [loading, setLoading] = useState(false);
 
-   async function createGallery(dataFiles) {
-    const images = [];
-    setResponseError("");
-    setLoading(true);
-    if (dataFiles) {
-      for (let index = 0; index < dataFiles.length; index++) {
-        const image = new FormData();
-        image.append("file", dataFiles[index]);
-        image.append("upload_preset", "kindergarden");
-        const responseCloud = await fetch(
-          "https://api.cloudinary.com/v1_1/ddsuzqzgh/image/upload",
-          {
-            method: "POST",
-            body: image,
-          }
-        );
-        const imageUrl = await responseCloud.json();
-        if (imageUrl.error) {
-          setLoading(false);
-          setResponseError(imageUrl.error.message);
-          return;
-        }
-        images.push(imageUrl.secure_url);
-      }
-      dataFiles.images = images;
-      const response = await fetch("http://localhost:3001/galery/", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(dataFiles),
-      });
-      const data = await response.json();
+  
+    const subImage =async (files) =>{
+      console.log("estos son tus archivos: ", files)
+      const formData = new FormData();
+      const postData = {
+        name: "", 
+        images: []
+      };
 
-      if (data.message === "Gallery created") {
+      handleChange2();
+      const url = `https://api.cloudinary.com/v1_1/ddsuzqzgh/image/upload`;
+      for (let i = 0; i < files.length; i++) {
+        const formData = new FormData();
+        formData.append("file", files[i]);
+        formData.append('upload_preset', 'v8xxvhbs');
         
-      } else {
-        setLoading(false);
-        setResponseError(data.message);
+        try {
+          const response = await fetch(url, {
+            method: "post",
+            body: formData
+          });
+          const images = [];
+          const data = await response.json();
+          handleChange2();
+          handleChange();
+
+          const image = {
+            secure_url: data.secure_url,
+            public_id: data.public_id
+          };
+
+          postData.name = data.original_filename; // Actualizamos el nombre en cada iteración si es diferente
+          postData.images.push(image);
+
+          
+          console.log(`Respuesta para el archivo ${i}:`, data);
+        } catch (error) {
+          console.error(`Error en la solicitud para el archivo ${i}:`, error);
+        }
+      
       }
+      try {
+        console.log(postData)
+      const jsonData = JSON.stringify(postData);
+      
+      const response = await fetch('http://localhost:3001/galery/', {
+        method: 'POST',
+        body: jsonData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (response.ok) {
+        console.log('Solicitud POST exitosa');
+       
+      } else {
+        // Manejar errores en caso de una respuesta no exitosa
+        const errorData = await response.json();
+        console.error('Error en la solicitud POST:', errorData);
+       
+      }
+    }catch (err) {
+      // Manejar errores en caso de un error de red u otra excepción
+      console.error('Error en la solicitud POST:', err);
+    
     }
-  }
- 
+  
+    }
+
+   const handleSaveFiles =(inputProps)=>{
+     setFiles(inputProps);
+   }
+   const [checked, setChecked] = React.useState(false);
+   const [checked2, setChecked2] = React.useState(false);
+
+   const handleChange = () => {
+    setChecked((prev) => !prev);
+    
+  };
+  const handleChange2 = () => {
+    setChecked2((prev) => !prev);
+    
+  };
 
  
-   const handleDropzoneChange = (files) => {
-    console.log('Files:', files);
-    createGallery(files); // Llama a createGallery y pasa los archivos como argumento
-  };
-   // Función para abrir el modal
-   const handleOpen = () => {
-     setOpen(true);
-   }
+
+   const icon =(
+    <Alert onClose={() => {
+    
+        setChecked(false); // Cambia el estado de checked después de 2 segundos
+         setChecked2(false);
+    }}>¡Imagenes Agregadas! </Alert>
+       
+   );
   return (
     <Card sx={sx}>
       
@@ -103,10 +126,20 @@ export const GaleryProducts = (props) => {
 
      <DropzoneArea filesLimit={4}  acceptedFiles={['image/*']}
        dropzoneText={"Agrega nuevas imagenes al producto"}
-       onChange={handleDropzoneChange}
+       onChange={handleSaveFiles}
+
         
       />
-      
+       
+       <Zoom in={checked2}>
+        <LinearProgress />
+      </Zoom>
+        
+        <Box style={{ height: checked ? 'auto' : 0 }}>
+          <Zoom in={checked}>{icon}</Zoom>
+        </Box>
+       
+       
       <div style={{ float: 'right', padding: '10px' }}>
         <Button
           startIcon={(
@@ -114,9 +147,9 @@ export const GaleryProducts = (props) => {
               <FileUploadIcon />
             </SvgIcon>
           )}
-          type="submit" 
-          variant="outlined"
          
+          variant="outlined"
+          onClick={() => subImage(files)} 
         >
           CONFIRM
         </Button>

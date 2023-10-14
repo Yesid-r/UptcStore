@@ -15,15 +15,42 @@ import Head from 'next/head';
 
 
 const Page = () => {
-  const [filea, setFilea] = React.useState('');
-  const handleFileChange = (event) => {
-    setFilea(event.target.files[0]);
-    if (filea) {
+  const [filea, setFilea] = React.useState(null);
+
+  const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+    
+    if (selectedFile) {
+      setFilea(selectedFile);
+      const url = `https://api.cloudinary.com/v1_1/ddsuzqzgh/image/upload`;
       
-      console.log("Archivo seleccionado:", filea.name);
-     
+      try {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        formData.append('upload_preset', 'v8xxvhbs');
+        
+        const response = await fetch(url, {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Datos de la imagen: ', data);
+          formik.setFieldValue('secure_url', data.secure_url);
+          formik.setFieldValue('public_id', data.public_id);
+
+        } else {
+          console.error('Error al subir la imagen a Cloudinary.');
+        }
+      } catch (error) {
+        console.error('Error en la solicitud a Cloudinary:', error);
+      }
+      
+      
     }
   };
+  
   
   const router = useRouter();
   const auth = useAuth();
@@ -87,7 +114,8 @@ const Page = () => {
       name: '', 
       description: '', 
       price: 0, 
-      images: filea,
+      secure_url: '',
+      public_id: '',
       stock: 0, 
       availability: estado, 
       category: '', 
@@ -122,30 +150,15 @@ const Page = () => {
       .required('Stock es requerido'),
     }),
     onSubmit: async (values, helpers) => {
-      const formData = new FormData();
-
-      // Obtén el campo de imagen del formulario
-      const imageInput = document.querySelector('input[type="file"]');
-    
-      // Verifica si se seleccionó un archivo
-      if (imageInput.files.length > 0) {
-        // Agrega el archivo de imagen al FormData
-        formData.append('image', imageInput.files[0]);
-      }
-    
-      // Agrega otros campos al formulario
-      formData.append('name', values.name);
-      formData.append('description', values.description);
-      formData.append('price', values.price);
-      formData.append('stock', values.stock);
-      formData.append('availability', values.availability);
-      formData.append('category', values.category);
-      formData.append('subcategory', values.subcategory);
-    
       try {
+        const jsonData = JSON.stringify(values);
+      
         const response = await fetch('http://localhost:3001/products/', {
           method: 'POST',
-          body: formData // Usa el objeto FormData en lugar de JSON.stringify
+          body: jsonData,
+          headers: {
+            'Content-Type': 'application/json',
+          },
         });
     
         if (response.ok) {

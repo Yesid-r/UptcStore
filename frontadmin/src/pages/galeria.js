@@ -147,15 +147,16 @@ const Page = () => {
             </Stack>
             {mostrarAddproc && <Addproc />}
             <CustomersSearch />
-
+            <GaleryAddsProducts
+             
+             sx={{ height: '100%' }}
+           />
             </Stack>
+           
         </Container>
         
             
-            <GaleryAddsProducts
-             
-              sx={{ height: '100%' }}
-            />
+         
        
         
 

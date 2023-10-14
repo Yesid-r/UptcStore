@@ -49,8 +49,6 @@ app.listen(app.get('PORT'), ()=>{
 
 
 
-// app.use('/auth', require('./routes/auth'))
-// app.use('/products', require('./routes/product'))
 app.use('/users', userRouter)
 app.use('/categories', categoryRouter)
 app.use('/products', productRouter)
@@ -59,8 +57,3 @@ app.use('/auth', authRouter)
 
 
 
-// app.use('/categories', require('./routes/category'))
-// app.use('/orders', require('./routes/order'))
-// app.use('/productCart', require('./routes/productCart'))
-// app.use('/shoppingCart', require('./routes/shoppingCart'))
-// app.use('/payment', require('./routes/payment'))
