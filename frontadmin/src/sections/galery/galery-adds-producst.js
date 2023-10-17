@@ -25,6 +25,9 @@ export const GaleryAddsProducts = (props) => {
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
+  const [id,setId] = useState('')
+  const [url,setUrl] = useState('')
+  const [galery,setGalery] = useState([])
   const {sx } = props;
   useEffect(()=>{
     const fetchProducts = async () => {
@@ -42,7 +45,29 @@ export const GaleryAddsProducts = (props) => {
     fetchProducts()
 },[])
 
+const saveId =(ide, secure_url)=>{
+ console.log("sduue "+ide)
+ setId(ide);
+ setUrl(secure_url);
 
+
+  const fetchProducts = async () => {
+      try {
+          setLoading(true)
+          const response = await fetch(`${API_URL}/galery/${ide}`)
+          const data = await response.json()
+          setLoading(false)
+          setGalery(data.galerys)
+      } catch (error) {
+
+          setLoading(false)
+          setError(error.message)
+      }
+    }
+    fetchProducts()
+     console.log("datos de galery",galery)
+
+  }
   return (
     <Card sx={sx}>
     <Grid
@@ -63,7 +88,9 @@ export const GaleryAddsProducts = (props) => {
           const ago = formatDistanceToNow(updatedAt);
           
           return (
-            <Button>
+            <Button
+            onClick={() => saveId(product._id,product.images.secure_url)}
+            >
             <ListItem
               divider={hasDivider}
               key={product._id}
@@ -133,7 +160,7 @@ export const GaleryAddsProducts = (props) => {
             md={12}
             lg={8}
             >
-           <GaleryProducts id={124124} ></GaleryProducts>
+           <GaleryProducts selected={galery} id={id} url={url}></GaleryProducts>
             </Grid>
 
 

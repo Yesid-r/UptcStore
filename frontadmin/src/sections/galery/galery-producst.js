@@ -6,19 +6,19 @@ import {
   Card,
   SvgIcon,
   Alert,
-  Stack,
-  Box
+  Box,
+  ListItemAvatar,
+  IconButton
 } from '@mui/material';
 import { DropzoneArea } from "mui-file-dropzone";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { GaleryList } from './galery-list';
 import Zoom from '@mui/material/Zoom';
 import LinearProgress from '@mui/material/LinearProgress';
-import { set } from 'nprogress';
 
 export const GaleryProducts = (props) => {
  
-  const { products = [], sx } = props;
+  const {selected=[], id, sx, url } = props;
    // Inicializar el estado utilizando useState
    const [open, setOpen] = useState(false);
    const [files, setFiles] = useState([]);
@@ -27,9 +27,10 @@ export const GaleryProducts = (props) => {
   
     const subImage =async (files) =>{
       console.log("estos son tus archivos: ", files)
-      const formData = new FormData();
+      
       const postData = {
-        name: "", 
+        name: "",
+        id:"",
         images: []
       };
 
@@ -55,7 +56,8 @@ export const GaleryProducts = (props) => {
             public_id: data.public_id
           };
 
-          postData.name = data.original_filename; // Actualizamos el nombre en cada iteración si es diferente
+          postData.name = data.original_filename;
+          postData.id = id; 
           postData.images.push(image);
 
           
@@ -96,6 +98,7 @@ export const GaleryProducts = (props) => {
 
    const handleSaveFiles =(inputProps)=>{
      setFiles(inputProps);
+     console.log("esta llegnado esto: ",selected.images)
    }
    const [checked, setChecked] = React.useState(false);
    const [checked2, setChecked2] = React.useState(false);
@@ -121,15 +124,44 @@ export const GaleryProducts = (props) => {
    );
   return (
     <Card sx={sx}>
-      
-      <GaleryList></GaleryList>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
+        PORTADA
+      <ListItemAvatar>  
+                {
+                   url
+                    ? (
+                      <Box
+                        component="img"
+                        src={url}
+                        sx={{
+                          borderRadius: 0,
+                          height: 108,
+                          width: 108
+                        }}
+                      />
+                    )
+                    : (
+                      <Box
+                        sx={{
+                          borderRadius: 1,
+                          backgroundColor: 'neutral.200',
+                          height: 48,
+                          width: 48
+                        }}
+                      />
+                    )
+                }
+              </ListItemAvatar>
+              </div>
 
+              <GaleryList selec={selected.images}></GaleryList>
      <DropzoneArea filesLimit={4}  acceptedFiles={['image/*']}
        dropzoneText={"Agrega nuevas imagenes al producto"}
        onChange={handleSaveFiles}
 
         
       />
+      
        
        <Zoom in={checked2}>
         <LinearProgress />

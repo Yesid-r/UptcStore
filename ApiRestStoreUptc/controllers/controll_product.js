@@ -1,7 +1,7 @@
 import Category from '../models/Category.js'
 import product from '../models/product.js'
 import { uploadImage, deleteImage } from '../utils/cloudinary.js'
-import fs from 'fs-extra'
+
 
 export const obtainAll = async (req, res) => {
     try {
@@ -60,16 +60,13 @@ export const modifyProduct = async (req, res) => {
         const id = req.params.id
         const dataToModify = req.body
         console.log(req.files)
-        if (req.files?.image) {
-            const result = await uploadImage(req.files.image.tempFilePath);
+        if (req.body.secure_url) {
+          
 
             dataToModify.images = {
                 public_id: result.public_id,
                 secure_url: result.secure_url
             };
-
-            // Elimina el archivo temporal después de cargarlo
-            await fs.unlink(req.files.image.tempFilePath);
         }
         const previusData = await product.findByIdAndUpdate(id, dataToModify)
         
