@@ -16,7 +16,7 @@ const galerySchema = new mongoose.Schema({
         {
             secure_url: String,
             public_id: String
-        }
+        },
     ]
 
     

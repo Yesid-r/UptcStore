@@ -46,7 +46,7 @@ export const GaleryProducts = (props) => {
             method: "post",
             body: formData
           });
-          const images = [];
+          
           const data = await response.json();
           handleChange2();
           handleChange();

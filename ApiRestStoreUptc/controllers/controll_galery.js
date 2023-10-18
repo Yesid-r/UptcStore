@@ -17,17 +17,14 @@ export const saveGalery = async (req, res) => {
  
      console.log(req.body)
 
-    const id2= req.body._id;
-     const id = req.params.id;
+     const id = req.body.id;
      console.log("rewr  "+ id);
      
+     console.log("imagenes nuevas22: ", req.body.images.secure_url)
     try {
-   
-
         const newProduct = new galery(req.body);
 
         if (req.body.secure_url) {
-
 
             newProduct.images = {
                 public_id: req.body.public_id,
@@ -41,15 +38,29 @@ export const saveGalery = async (req, res) => {
 
             newProduct.products = req.body.id;
         }
-       
-        const galerys = await galery.findById(id2)
-        if(galerys){
-            const previusData = await product.findByIdAndUpdate(id2, newProduct)
-            console.log("actualizado")
-        }else{
-            const datagalerysave = await newProduct.save();
-            console.log("nuevo")
-        }
+
+        const galerys = await galery.findOne({ products: id });
+       // console.log("datos de galeria encontrada: ",galerys)
+        let datagalerysave;
+          if (galerys) {
+            console.log("imagenes nuevas: ")
+            for (let i=0 ; i < req.body.images.length; i++){
+                console.log(req.body.images[i].secure_url);
+            galerys.images.push({
+              secure_url: req.body.images[i].secure_url,
+              public_id: req.body.images[i].public_id
+             
+            });
+            }
+            // Guarda la galería actualizada
+            datagalerysave = await galerys.save();
+            console.log("actualizado");
+          } else {
+            // No hay galería existente, crea una nueva galería con las imágenes
+            datagalerysave = await newProduct.save();
+            console.log("nuevo");
+          }
+          
      
 
         return res.status(200).json({
@@ -94,7 +105,7 @@ export const deleteGalery = async (req, res) => {
         if (!galeryDoc) {
             return res.status(404).json({
                 "status": false,
-                "message": "Galería no encontrada"
+                "message": "Imagen no encontrada"
             });
         }
 

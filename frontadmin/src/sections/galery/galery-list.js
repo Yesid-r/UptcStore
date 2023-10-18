@@ -94,7 +94,7 @@ export const GaleryList = (props) => {
                      />
                      <ImageListItemBar
                        style={{ backdropFilter: 'blur(12px)' }}
-                       title={product.public_id.substring(0, 8)}
+                       title={product.public_id}
                        subtitle={"sf"}
                        actionIcon={
                         <IconButton aria-label="delete" color="secondary" onClick={() => handleDelete(product.public_id)} className="delete-button">
