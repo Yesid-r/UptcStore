@@ -8,13 +8,17 @@ import {
   Alert,
   Box,
   ListItemAvatar,
-  IconButton
+  IconButton,
+  
 } from '@mui/material';
 import { DropzoneArea } from "mui-file-dropzone";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { GaleryList } from './galery-list';
 import Zoom from '@mui/material/Zoom';
 import LinearProgress from '@mui/material/LinearProgress';
+
+
+
 
 export const GaleryProducts = (props) => {
  

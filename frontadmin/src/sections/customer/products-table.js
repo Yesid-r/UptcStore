@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import { format } from 'date-fns';
+
 import {
   Avatar,
   Box,
@@ -19,11 +18,22 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
 import React, { useEffect, useState } from 'react';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Edit from '../../pages/auth/editc'
 import {API_URL} from '../../utils/constants'
+
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Close';
+import { DataGrid } from '@mui/x-data-grid';
+import { useDemoData } from '@mui/x-data-grid-generator';
+import NwProductTable from './nwproducts-table';
+
+
+
+
+
 
 export const ProductsTable = (props) => {
 
@@ -41,6 +51,8 @@ export const ProductsTable = (props) => {
     selected = []
   } = props;
   const [products, setProducts] = useState([])
+  const [categories, setCategories] = useState([])
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   useEffect(()=>{
@@ -57,6 +69,20 @@ export const ProductsTable = (props) => {
           }
       }
       fetchProducts()
+
+      const fetchGalerys = async () => {
+        try {
+            setLoading(true)
+            const response = await fetch(`${API_URL}/categories`)
+            const data = await response.json()
+            setLoading(false)
+            setCategories(data.dataCategory)
+        } catch (error) {
+            setLoading(false)
+            setError(error.message)
+        }
+    }
+    fetchGalerys()
   },[])
 
   const handleDelete = (id) => {
@@ -81,6 +107,7 @@ export const ProductsTable = (props) => {
   };
 
   return (
+    <Box>
     <Card>
       <Scrollbar>
         <Box sx={{ minWidth: 800 }}>
@@ -104,6 +131,7 @@ export const ProductsTable = (props) => {
                 <TableCell>Descripción</TableCell>
                 <TableCell>Precio</TableCell>
                 <TableCell>Stock</TableCell>
+                <TableCell>categorias</TableCell>
                 <TableCell>Opciones</TableCell>
               </TableRow>
             </TableHead>
@@ -117,7 +145,12 @@ export const ProductsTable = (props) => {
                     hover
                     key={product._id}
                     selected={isSelected}
-                  >
+                  > 
+                    {showEdit && 
+                    <Card > 
+                       <Edit></Edit>
+                      </Card>
+                    } 
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
@@ -167,6 +200,7 @@ export const ProductsTable = (props) => {
                     <TableCell>{product.description}</TableCell>
                     <TableCell>{product.price}</TableCell>
                     <TableCell>{product.stock}</TableCell>
+                    <TableCell>{product.subcategory}</TableCell>
                     <TableCell>
                     <IconButton aria-label="delete" color="secondary" onClick={() => handleDelete(product._id)}>
                     <DeleteIcon />
@@ -194,10 +228,12 @@ export const ProductsTable = (props) => {
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
       />
-       {showEdit && 
-        <Edit id2 = {id2}/>
-      } 
+      
     </Card>
+
+     
+  
+    </Box>
 
     
   );

@@ -12,6 +12,7 @@ import { ProductsTable} from 'src/sections/customer/products-table';
 import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import Addproc from './auth/product'
+import NwProductTable from 'src/sections/customer/nwproducts-table';
 
 const now = new Date();
 
@@ -158,6 +159,7 @@ const Page = () => {
               rowsPerPage={rowsPerPage}
               selected={customersSelection.selected}
             />
+            <NwProductTable></NwProductTable>
           </Stack>
         </Container>
       </Box>

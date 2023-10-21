@@ -14,7 +14,19 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Head from 'next/head';
 import dotenv from 'dotenv'
 import {API_URL} from '../../utils/constants'
-
+import {
+  Avatar,
+  Card,
+  Checkbox,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+  ListItemAvatar,
+  IconButton
+} from '@mui/material';
 const Edit = ({id2}) => {
   
   console.log("edti: "+ id2)
@@ -237,15 +249,10 @@ const Edit = ({id2}) => {
               <Typography variant="h4">
                 Editar Producto
               </Typography>
-           
-           
-            </Stack>
-            <form
-              noValidate
-              onSubmit={formik.handleSubmit}
-            >
-              <Stack spacing={3}>
-                <TextField
+              <Table>
+             
+              <TableRow>
+              <TableCell> <TextField
                   error={!!(formik.touched.name && formik.errors.name)}
                   fullWidth
                   helperText={formik.touched.name && formik.errors.name}
@@ -254,8 +261,8 @@ const Edit = ({id2}) => {
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   value={formik.values.name}
-                />
-                <TextField
+                /></TableCell>
+               <TableCell>   <TextField
                   error={!!(formik.touched.description && formik.errors.description)}
                   fullWidth
                   helperText={formik.touched.description && formik.errors.description}
@@ -266,6 +273,9 @@ const Edit = ({id2}) => {
                   type="text"
                   value={formik.values.description}
                 />
+                
+                </TableCell>
+                <TableCell>   
                 <TextField
                   error={!!(formik.touched.price && formik.errors.price)}
                   fullWidth
@@ -278,6 +288,10 @@ const Edit = ({id2}) => {
                   value={formik.values.price}
                   
                 />
+                
+                </TableCell>
+
+                <TableCell>
                 <TextField
                   error={!!(formik.touched.stock && formik.errors.stock)}
                   fullWidth
@@ -289,6 +303,24 @@ const Edit = ({id2}) => {
                   type="number"
                   value={formik.values.stock}
                 />
+                </TableCell>
+
+                <TableCell>
+                
+                </TableCell>  
+
+
+                </TableRow>
+           </Table>
+            </Stack>
+            <form
+              noValidate
+              onSubmit={formik.handleSubmit}
+            >
+              <Stack spacing={3}>
+              
+             
+              
 
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label"
