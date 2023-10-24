@@ -17,6 +17,7 @@ import { GaleryList } from './galery-list';
 import Zoom from '@mui/material/Zoom';
 import LinearProgress from '@mui/material/LinearProgress';
 
+import {API_URL} from '../../utils/constants'
 
 
 
@@ -75,7 +76,7 @@ export const GaleryProducts = (props) => {
         console.log(postData)
       const jsonData = JSON.stringify(postData);
       
-      const response = await fetch('http://localhost:3001/galery/', {
+      const response = await fetch(`${API_URL}/galery/`, {
         method: 'POST',
         body: jsonData,
         headers: {

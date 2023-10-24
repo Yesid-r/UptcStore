@@ -13,6 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Head from 'next/head';
 
+import {API_URL} from '../../utils/constants'
 
 const Page = () => {
   const [filea, setFilea] = React.useState(null);
@@ -153,7 +154,7 @@ const Page = () => {
       try {
         const jsonData = JSON.stringify(values);
       
-        const response = await fetch('http://localhost:3001/products/', {
+        const response = await fetch(`${API_URL}/products/`, {
           method: 'POST',
           body: jsonData,
           headers: {
