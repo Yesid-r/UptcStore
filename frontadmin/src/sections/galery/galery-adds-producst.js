@@ -90,6 +90,7 @@ const saveId =(ide, secure_url)=>{
           return (
             <Button
             onClick={() => saveId(product._id,product.images.secure_url)}
+            key={product._id} 
             >
             <ListItem
               divider={hasDivider}
@@ -160,7 +161,11 @@ const saveId =(ide, secure_url)=>{
             md={12}
             lg={8}
             >
-           <GaleryProducts selected={galery} id={id} url={url}></GaleryProducts>
+           <GaleryProducts
+            selected={galery}
+            id={id}
+            url={url}
+          />
             </Grid>
 
 
@@ -169,7 +174,4 @@ const saveId =(ide, secure_url)=>{
   );
 };
 
-GaleryAddsProducts.propTypes = {
-  products: PropTypes.array,
-  sx: PropTypes.object
-};
+
