@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -20,13 +19,49 @@ import {
   randomId,
   randomArrayItem,
 } from '@mui/x-data-grid-generator';
-
+import {API_URL} from '../../utils/constants'
 const roles = ['Market', 'Finance', 'Development'];
 const randomRole = () => {
   return randomArrayItem(roles);
 };
 
-
+const initialRows = [
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 25,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 36,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 19,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 28,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 23,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -49,46 +84,11 @@ function EditToolbar(props) {
   );
 }
 
-export default function NwProductTable() {
-  const [products, setProducts] = useState([])
-  const [categories, setCategories] = useState([])
+export default function NwProductTable({listProd}) {
 
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
-  useEffect(()=>{
-      const fetchProducts = async () => {
-          try {
-              setLoading(true)
-              const response = await fetch(`${API_URL}/products`)
-              const data = await response.json()
-              setLoading(false)
-              setProducts(data.products)
-          } catch (error) {
-              setLoading(false)
-              setError(error.message)
-          }
-      }
-      fetchProducts()
-
-      const fetchGalerys = async () => {
-        try {
-            setLoading(true)
-            const response = await fetch(`${API_URL}/categories`)
-            const data = await response.json()
-            setLoading(false)
-            setCategories(data.dataCategory)
-        } catch (error) {
-            setLoading(false)
-            setError(error.message)
-        }
-    }
-    fetchGalerys()
-  },[])
-
-
-  console.log("toma los datos11",products)
-  const rows2 = products.map((item, index) => ({
-    id: index + 1, // Puedes usar cualquier lógica para generar IDs únicos, aquí se usa el índice + 1.
+  const [rowModesModel, setRowModesModel] = React.useState({});
+  const rows2 = listProd.map((item, index) => ({
+    id: item._id,
     availability: item.availability,
     category: item.category,
     createdAt: item.createdAt,
@@ -102,12 +102,7 @@ export default function NwProductTable() {
     __v: item.__v,
     _id: item._id,
   }));
-  const initialRows = rows2;
-  console.log("toma los datos",rows2)
-
   const [rows, setRows] = React.useState(rows2);
-  const [rowModesModel, setRowModesModel] = React.useState({});
-
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -116,14 +111,38 @@ export default function NwProductTable() {
 
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+    console.log("se supone que ac crack",rowModesModel)
   };
 
   const handleSaveClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+    console.log("se supone que ac crack",rowModesModel)
   };
 
-  const handleDeleteClick = (id) => () => {
+  const handleDeleteClick = (id,_id) => () => {
     setRows(rows.filter((row) => row.id !== id));
+    console.log("id a eliminar: "+ id)
+    fetch(`${API_URL}/products/${id}`, {
+      method: 'DELETE',
+    })
+
+      .catch((error) => {
+        console.error('Error al eliminar producto:', error);
+      });
+  };
+
+  const handleDelete = (id) => {
+    // Realizar la solicitud HTTP para eliminar un producto por su ID
+    fetch(`${API_URL}/products/${id}`, {
+      method: 'DELETE',
+    })
+      .then(() => {
+        // Actualizar la lista de productos después de la eliminación
+        setProducts(products.filter(product => product.id !== id));
+      })
+      .catch((error) => {
+        console.error('Error al eliminar producto:', error);
+      });
   };
 
   const handleCancelClick = (id) => () => {
@@ -141,6 +160,7 @@ export default function NwProductTable() {
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    console.log("updated", updatedRow)
     return updatedRow;
   };
 
@@ -149,38 +169,14 @@ export default function NwProductTable() {
   };
 
   const columns = [
-    { field: 'name', headerName: 'Name', width: 180, editable: true },
-    {
-      field: 'price',
-      headerName: 'Age',
-      type: 'number',
-      width: 80,
-      align: 'left',
-      headerAlign: 'left',
-      editable: true,
-    },
-    {
-      field: 'joinDate',
-      headerName: 'Join date',
-      type: 'date',
-      width: 180,
-      editable: true,
-    },
-    {
-      field: 'role',
-      headerName: 'Department',
-      width: 220,
-      editable: true,
-      type: 'singleSelect',
-      valueOptions: ['Market', 'Finance', 'Development'],
-    },
     {
       field: 'actions',
       type: 'actions',
-      headerName: 'Actions',
+      headerName: 'Opciones',
       width: 100,
       cellClassName: 'actions',
-      getActions: ({ id }) => {
+      getActions: ({ id , _id }) => {
+        
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
         if (isInEditMode) {
@@ -214,12 +210,50 @@ export default function NwProductTable() {
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
-            onClick={handleDeleteClick(id)}
+            onClick={handleDeleteClick(id,_id)}
             color="inherit"
           />,
         ];
       },
     },
+    { field: '_id', headerName: 'ID', width: 180, editable: true },
+    { field: 'name', headerName: 'Nombre', width: 180, editable: true },
+    { field: 'description', headerName: 'Descripcion', width: 180, editable: true },
+    {
+      field: 'price',
+      headerName: 'Precio',
+      type: 'number',
+      width: 80,
+      align: 'left',
+      headerAlign: 'left',
+      editable: true,
+    },
+    {
+      field: 'stock',
+      headerName: 'Stock',
+      type: 'number',
+      width: 80,
+      align: 'left',
+      headerAlign: 'left',
+      editable: true,
+    },
+    {
+      field: 'category',
+      headerName: 'Category',
+      width: 120,
+      editable: true,
+      type: 'singleSelect',
+      valueOptions: ['Market', 'Finance', 'Development'],
+    },
+    {
+      field: 'subcategory',
+      headerName: 'Subcategory',
+      width: 120,
+      editable: true,
+      type: 'singleSelect',
+      valueOptions: ['Market', 'Finance', 'Development'],
+    },
+   
   ];
 
   return (

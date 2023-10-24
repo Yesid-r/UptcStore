@@ -61,7 +61,7 @@ export const modifyProduct = async (req, res) => {
         const dataToModify = req.body
         console.log(req.files)
         if (req.body.secure_url) {
-          
+            const galeryDoc = await product.findOne({ "images.public_id": publicIdToDelete });
 
             dataToModify.images = {
                 public_id: result.public_id,

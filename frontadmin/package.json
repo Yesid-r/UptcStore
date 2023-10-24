@@ -26,6 +26,7 @@
     "@mui/x-data-grid": "^6.16.2",
     "@mui/x-data-grid-generator": "^6.16.2",
     "@mui/x-date-pickers": "5.0.19",
+    
     "apexcharts": "3.37.0",
     "date-fns": "2.29.3",
     "dotenv": "^16.3.1",

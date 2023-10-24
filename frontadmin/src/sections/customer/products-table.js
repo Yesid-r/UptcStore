@@ -21,13 +21,7 @@ import React, { useEffect, useState } from 'react';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Edit from '../../pages/auth/editc'
 import {API_URL} from '../../utils/constants'
-
-import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
-import { DataGrid } from '@mui/x-data-grid';
-import { useDemoData } from '@mui/x-data-grid-generator';
 import NwProductTable from './nwproducts-table';
 
 
@@ -51,8 +45,9 @@ export const ProductsTable = (props) => {
     selected = []
   } = props;
   const [products, setProducts] = useState([])
+  const [product, setProduct] = useState([])
   const [categories, setCategories] = useState([])
-
+  const [productsLoaded, setProductsLoaded] = useState(false);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   useEffect(()=>{
@@ -63,6 +58,7 @@ export const ProductsTable = (props) => {
               const data = await response.json()
               setLoading(false)
               setProducts(data.products)
+              setProductsLoaded(true);
           } catch (error) {
               setLoading(false)
               setError(error.message)
@@ -100,14 +96,20 @@ export const ProductsTable = (props) => {
   };
   const [showEdit, setShowEdit] = useState(false);
   const [id2, setId2] = useState(false);
-  const handleEditClick = (id) => {
+  const handleEditClick = (prod) => {
     setShowEdit(!showEdit); 
-    setId2(id);
+    setProduct(prod);
     console.log(id2)
   };
 
   return (
+    
     <Box>
+          {showEdit && 
+      
+         <Edit product={product}></Edit>
+        
+      } 
     <Card>
       <Scrollbar>
         <Box sx={{ minWidth: 800 }}>
@@ -146,11 +148,7 @@ export const ProductsTable = (props) => {
                     key={product._id}
                     selected={isSelected}
                   > 
-                    {showEdit && 
-                    <Card > 
-                       <Edit></Edit>
-                      </Card>
-                    } 
+                   
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
@@ -205,7 +203,7 @@ export const ProductsTable = (props) => {
                     <IconButton aria-label="delete" color="secondary" onClick={() => handleDelete(product._id)}>
                     <DeleteIcon />
                     </IconButton>
-                    <IconButton aria-label="delete" color="primary" onClick={() => handleEditClick(product._id)}>
+                    <IconButton aria-label="delete" color="primary" onClick={() => handleEditClick(product)}>
                     <ModeEditIcon/>
                     </IconButton>
                    
@@ -228,11 +226,17 @@ export const ProductsTable = (props) => {
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
       />
+          
       
     </Card>
 
-     
-  
+    {productsLoaded ? (
+      <Card>
+    <NwProductTable listProd={products} />
+    </Card>
+    ) : (
+     <p>Los productos aún se están cargando...</p>
+    )}
     </Box>
 
     

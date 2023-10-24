@@ -11,25 +11,13 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Head from 'next/head';
-import dotenv from 'dotenv'
+import SaveIcon from '@mui/icons-material/Save';
 import {API_URL} from '../../utils/constants'
-import {
-  Avatar,
-  Card,
-  Checkbox,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  ListItemAvatar,
-  IconButton
-} from '@mui/material';
-const Edit = ({id2}) => {
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+
+const Edit = ({product}) => {
   
-  console.log("edti: "+ id2)
+
   const [filea, setFilea] = React.useState('');
   const handleFileChange = (event) => {
     setFilea(event.target.files[0]);
@@ -99,14 +87,14 @@ const Edit = ({id2}) => {
 
   const formik = useFormik({
     initialValues: {
-      name: '', 
-      description: '', 
-      price: 0, 
+      name: product.name, 
+      description: product.description, 
+      price: product.price, 
       images: filea,
-      stock: 0, 
-      availability: estado, 
-      category: '', 
-      subcategory: '' ,
+      stock: product.stock, 
+      availability: product.availability, 
+      category: product.category, 
+      subcategory: product.subcategory ,
       submit: null
     },
     validationSchema: Yup.object({
@@ -152,7 +140,7 @@ const Edit = ({id2}) => {
       formData.append('subcategory', values.subcategory);
       
       try {
-        const response = await fetch(`${API_URL}/products/${id2}`, {
+        const response = await fetch(`${API_URL}/products/${product._id}`, {
           method: 'PUT',
           body: formData // Usa el objeto FormData en lugar de JSON.stringify
         });
@@ -161,7 +149,7 @@ const Edit = ({id2}) => {
           
           console.log('Solicitud POST exitosa');
           helpers.setStatus({ success: false });
-          helpers.setErrors({ submit: "Producto agregado"});
+          helpers.setErrors({ submit: "Producto Editado"});
           helpers.setSubmitting(false);
         } else {
           // Manejar errores en caso de una respuesta no exitosa
@@ -202,16 +190,13 @@ const Edit = ({id2}) => {
   return (
     <>
      {isBoxVisible && (
-      <Box sx={{
-        position: 'absolute',
-        top: '50%',
-        left: '45%',
-        transform: 'translate(-20%, -30%)',
-        width: 800,
-        bgcolor: 'background.paper',
-        boxShadow: 24,
-        p: 4,
-      }}>
+     <Box sx={{
+      position: 'relative',
+      width: '100%',
+      bgcolor: 'background.paper',
+      boxShadow: 24,
+      p: 4,
+    }}>
      
       <Box
         sx={{
@@ -221,18 +206,7 @@ const Edit = ({id2}) => {
           justifyContent: 'center'
         }}
       >
-        <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleCloseBox}
-            sx={{
-              position: 'absolute',
-              top: '28px',
-              right: '658px',
-            }}
-          >
-            Cerrar
-          </Button>
+       
         <Box
           sx={{
             maxWidth: 550,
@@ -249,10 +223,14 @@ const Edit = ({id2}) => {
               <Typography variant="h4">
                 Editar Producto
               </Typography>
-              <Table>
-             
-              <TableRow>
-              <TableCell> <TextField
+            
+            </Stack>
+            <form
+              noValidate
+              onSubmit={formik.handleSubmit}
+            >
+              <Stack spacing={3}>
+              <TextField
                   error={!!(formik.touched.name && formik.errors.name)}
                   fullWidth
                   helperText={formik.touched.name && formik.errors.name}
@@ -261,8 +239,8 @@ const Edit = ({id2}) => {
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   value={formik.values.name}
-                /></TableCell>
-               <TableCell>   <TextField
+                />
+              <TextField
                   error={!!(formik.touched.description && formik.errors.description)}
                   fullWidth
                   helperText={formik.touched.description && formik.errors.description}
@@ -273,10 +251,7 @@ const Edit = ({id2}) => {
                   type="text"
                   value={formik.values.description}
                 />
-                
-                </TableCell>
-                <TableCell>   
-                <TextField
+              <TextField
                   error={!!(formik.touched.price && formik.errors.price)}
                   fullWidth
                   helperText={formik.touched.price && formik.errors.price}
@@ -288,11 +263,7 @@ const Edit = ({id2}) => {
                   value={formik.values.price}
                   
                 />
-                
-                </TableCell>
-
-                <TableCell>
-                <TextField
+              <TextField
                   error={!!(formik.touched.stock && formik.errors.stock)}
                   fullWidth
                   helperText={formik.touched.stock && formik.errors.stock}
@@ -303,24 +274,6 @@ const Edit = ({id2}) => {
                   type="number"
                   value={formik.values.stock}
                 />
-                </TableCell>
-
-                <TableCell>
-                
-                </TableCell>  
-
-
-                </TableRow>
-           </Table>
-            </Stack>
-            <form
-              noValidate
-              onSubmit={formik.handleSubmit}
-            >
-              <Stack spacing={3}>
-              
-             
-              
 
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label"
@@ -410,15 +363,39 @@ const Edit = ({id2}) => {
                   {formik.errors.submit}
                 </Typography>
               )}
-              <Button
-                fullWidth
-                size="large"
-                sx={{ mt: 3 }}
-                type="submit"
+               <Button
                 variant="contained"
+                color="secondary"
+                onClick={handleCloseBox}
+                sx={{
+                  position: 'absolute',
+                  top: '2%',
+                  right: '50%',
+                }}
               >
-                Continue
+                Cerrar
               </Button>
+              <div style={{display: "flex",gap: "10px", marginTop: '2%', justifyContent:'center' }}>
+                <Button
+                  size="large"
+                  onClick={handleCloseBox}
+                  
+                  variant="contained"
+                >
+                  <HighlightOffIcon />
+                  CANCELAR
+                </Button>
+                <Button
+                  size="large"
+                  
+                  type="submit"
+                  variant="contained"
+                >
+                  <SaveIcon />
+                  GUARDAR
+                </Button>
+              </div>
+
             </form>
           </div>
         </Box>

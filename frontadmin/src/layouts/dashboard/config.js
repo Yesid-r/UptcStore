@@ -7,7 +7,7 @@ import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
 import { SvgIcon } from '@mui/material';
-
+import BurstModeIcon from '@mui/icons-material/BurstMode';
 export const items = [
   {
     title: 'Overview',
@@ -33,7 +33,7 @@ export const items = [
     path: '/galeria',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <BurstModeIcon />
         
       </SvgIcon>
     )
